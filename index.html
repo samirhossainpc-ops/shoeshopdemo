@@ -325,7 +325,7 @@
       saveCart(); showCheckout();
     };
 
-    // Order submit
+    // Order submit → Formspree
     document.getElementById('order-form').onsubmit = function(e) {
       e.preventDefault();
       const name = document.getElementById('cust-name').value.trim();
@@ -336,13 +336,31 @@
       const items = cart.map(i => { const p = products.find(x => x.id === i.productId); return { name: p?p.name:'Unknown', size: i.size, qty: i.qty, price: p?p.price:0 }; });
       const total = items.reduce((s,i) => s + i.price*i.qty, 0);
       
-      fetch('https://script.google.com/macros/s/AKfycbyYllyGKyxr8NDtW0oyAH3-7vEpXReZrOprrhmQvvQoeqG3Nc-fk-Y92XthIXSl-0EZ/exec', {
-        method: 'POST', body: JSON.stringify({ orderId, name, phone, address, items, total }),
-        headers: { 'Content-Type': 'application/json' }, mode: 'no-cors'
-      }).finally(() => {
-        cart = []; saveCart();
-        showPage('thankyou-page');
-        document.getElementById('order-id').textContent = orderId;
+      // Send to Formspree
+      fetch('https://formspree.io/f/maqavqvv', {
+        method: 'POST',
+        body: JSON.stringify({
+          orderId: orderId,
+          customerName: name,
+          phone: phone,
+          address: address,
+          items: items,
+          total: total,
+          _subject: 'New Order #' + orderId
+        }),
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(response => {
+        if (response.ok) {
+          cart = []; saveCart();
+          showPage('thankyou-page');
+          document.getElementById('order-id').textContent = orderId;
+        } else {
+          alert('Something went wrong. Please try again.');
+        }
+      })
+      .catch(error => {
+        alert('Network error. Please check your connection.');
       });
     };
 
