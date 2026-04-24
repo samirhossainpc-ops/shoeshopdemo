@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout – ShoeHub</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="products.js"></script>
+  <script src="cart.js"></script>
+</head>
+<body class="checkout-page">
+  <nav class="nav">
+    <div class="nav-logo"><a href="index.html">SHOE<span class="accent">HUB</span></a></div>
+  </nav>
+  <main class="checkout-container">
+    <h2>Checkout</h2>
+    <div id="order-summary" class="order-summary"></div>
+    <form id="checkout-form">
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="tel" id="phone" placeholder="Phone Number" required>
+      <textarea id="address" placeholder="Full Address" required></textarea>
+      <button type="submit" class="btn btn-primary btn-block">Place Order (Cash on Delivery)</button>
+    </form>
+    <div id="order-message" style="display:none;"></div>
+  </main>
+  <script>
+    const GOOGLE_SCRIPT_URL = 'YOUR_WEB_APP_URL'; // <-- PASTE YOUR DEPLOYED SCRIPT URL HERE
+
+    // Display cart summary
+    const cart = getCart();
+    const summary = document.getElementById('order-summary');
+    if (cart.length === 0) {
+      summary.innerHTML = '<p>Your cart is empty.</p>';
+    } else {
+      let html = '<ul>';
+      let total = 0;
+      cart.forEach(item => {
+        const product = products.find(p => p.id === item.productId);
+        html += `<li>${product.name} - Size: ${item.size} x ${item.qty} = ৳${product.price * item.qty}</li>`;
+        total += product.price * item.qty;
+      });
+      html += '</ul><p><strong>Total: ৳<span id="total">' + total + '</span></strong></p>';
+      summary.innerHTML = html;
+    }
+
+    document.getElementById('checkout-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      if (!name || !phone || !address) return alert('Please fill all fields.');
+
+      const cart = getCart();
+      if (cart.length === 0) return alert('Cart is empty.');
+
+      const orderId = 'ORD-' + Date.now() + '-' + Math.floor(Math.random() * 10000);
+      const orderItems = cart.map(item => {
+        const product = products.find(p => p.id === item.productId);
+        return {
+          productId: item.productId,
+          name: product.name,
+          size: item.size,
+          qty: item.qty,
+          price: product.price
+        };
+      });
+      const total = orderItems.reduce((sum, i) => sum + i.price * i.qty, 0);
+
+      const orderData = { orderId, name, phone, address, items: orderItems, total };
+
+      try {
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(orderData),
+          headers: { 'Content-Type': 'application/json' }
+        });
+        const result = await response.json();
+        if (result.success) {
+          // Store order ID for thank you page
+          localStorage.setItem('lastOrderId', orderId);
+          clearCart();
+          window.location.href = 'thankyou.html';
+        } else {
+          alert('Something went wrong. Please try again.');
+        }
+      } catch (error) {
+        alert('Network error. Please try again.');
+      }
+    });
+  </script>
+</body>
+</html>

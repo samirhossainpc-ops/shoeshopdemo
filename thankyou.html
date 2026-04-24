@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You – ShoeHub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="thankyou-page">
+  <nav class="nav">
+    <div class="nav-logo"><a href="index.html">SHOE<span class="accent">HUB</span></a></div>
+  </nav>
+  <main class="thankyou-container">
+    <div class="checkmark">✔</div>
+    <h1>Order Placed Successfully!</h1>
+    <p>Your Order ID: <strong id="order-id-display"></strong></p>
+    <p>We will process your order soon. For any query or delivery status, please call:</p>
+    <p><a href="tel:+8801XXXXXXXXX" class="btn btn-outline">📞 01XXXXXXXXX</a></p>
+    <a href="index.html" class="btn btn-primary">Continue Shopping</a>
+  </main>
+  <script>
+    const orderId = localStorage.getItem('lastOrderId');
+    document.getElementById('order-id-display').textContent = orderId || 'N/A';
+  </script>
+</body>
+</html>

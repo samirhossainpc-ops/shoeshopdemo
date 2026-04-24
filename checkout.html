@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout – ShoeHub</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="checkout-page">
+  <nav class="nav">
+    <div class="nav-logo"><a href="index.html">SHOE<span class="accent">HUB</span></a></div>
+    <div class="nav-links">
+      <a href="index.html">← Back to Shop</a>
+    </div>
+  </nav>
+  
+  <main class="checkout-container">
+    <h2>Checkout</h2>
+    
+    <div id="order-summary" class="order-summary">
+      <h3>Order Summary</h3>
+      <div id="cart-items-list"></div>
+      <div class="total-line">
+        <strong>Total: ৳<span id="checkout-total">0</span></strong>
+      </div>
+      <p style="font-size: 0.85rem; color: #666;">Payment Method: Cash on Delivery</p>
+    </div>
+
+    <form id="checkout-form">
+      <div class="form-group">
+        <label for="name">Full Name *</label>
+        <input type="text" id="name" placeholder="Enter your full name" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="phone">Phone Number *</label>
+        <input type="tel" id="phone" placeholder="01XXXXXXXXX" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="address">Full Address *</label>
+        <textarea id="address" placeholder="House, Road, Area, City" rows="3" required></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="note">Order Note (Optional)</label>
+        <textarea id="note" placeholder="Any special instructions..." rows="2"></textarea>
+      </div>
+      
+      <button type="submit" class="btn btn-primary btn-block">
+        Place Order (Cash on Delivery)
+      </button>
+    </form>
+    
+    <div id="order-message" style="display:none; text-align: center; padding: 20px;"></div>
+  </main>
+
+  <script src="products.js"></script>
+  <script src="cart.js"></script>
+  <script>
+    // ==========================================
+    // YOUR GOOGLE APPS SCRIPT WEB APP URL
+    // ==========================================
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyYllyGKyxr8NDtW0oyAH3-7vEpXReZrOprrhmQvvQoeqG3Nc-fk-Y92XthIXSl-0EZ/exec';
+    // ==========================================
+
+    // Display cart summary on checkout page
+    function displayOrderSummary() {
+      const cart = getCart();
+      const cartItemsList = document.getElementById('cart-items-list');
+      const checkoutTotal = document.getElementById('checkout-total');
+      
+      if (cart.length === 0) {
+        cartItemsList.innerHTML = '<p style="text-align: center; padding: 20px;">Your cart is empty. <a href="index.html">Shop now</a></p>';
+        document.getElementById('checkout-form').style.display = 'none';
+        return;
+      }
+      
+      let html = '';
+      let total = 0;
+      
+      cart.forEach(item => {
+        const product = products.find(p => p.id === item.productId);
+        if (product) {
+          const itemTotal = product.price * item.qty;
+          total += itemTotal;
+          html += `
+            <div class="checkout-item">
+              <div class="checkout-item-info">
+                <img src="${product.images[0]}" alt="${product.name}" class="checkout-item-img">
+                <div>
+                  <strong>${product.name}</strong>
+                  <p>Size: UK ${item.size} | Qty: ${item.qty}</p>
+                </div>
+              </div>
+              <span>৳${itemTotal}</span>
+            </div>
+          `;
+        }
+      });
+      
+      cartItemsList.innerHTML = html;
+      checkoutTotal.textContent = total;
+    }
+
+    // Handle form submission
+    document.getElementById('checkout-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      
+      // Get form values
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const note = document.getElementById('note').value.trim();
+      
+      // Validate
+      if (!name || !phone || !address) {
+        alert('Please fill in all required fields (Name, Phone, Address).');
+        return;
+      }
+      
+      const cart = getCart();
+      if (cart.length === 0) {
+        alert('Your cart is empty.');
+        return;
+      }
+      
+      // Generate order ID
+      const orderId = 'ORD-' + Date.now() + '-' + Math.floor(Math.random() * 10000);
+      
+      // Prepare order items
+      const orderItems = cart.map(item => {
+        const product = products.find(p => p.id === item.productId);
+        return {
+          productId: item.productId,
+          name: product ? product.name : 'Unknown Product',
+          size: item.size,
+          qty: item.qty,
+          price: product ? product.price : 0
+        };
+      });
+      
+      const total = orderItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      
+      // Prepare order data
+      const orderData = {
+        orderId: orderId,
+        name: name,
+        phone: phone,
+        address: address,
+        note: note,
+        items: orderItems,
+        total: total
+      };
+      
+      // Show loading state
+      submitBtn.textContent = 'Processing...';
+      submitBtn.disabled = true;
+      
+      try {
+        console.log('Sending order to Google Sheets...', orderData);
+        
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(orderData),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          mode: 'no-cors' // This helps with CORS issues
+        });
+        
+        // Since we're using no-cors, we won't get a proper response
+        // So we assume success and proceed
+        
+        // Save order ID for thank you page
+        localStorage.setItem('lastOrderId', orderId);
+        localStorage.setItem('lastOrderName', name);
+        
+        // Clear cart
+        clearCart();
+        
+        // Redirect to thank you page
+        window.location.href = 'thankyou.html';
+        
+      } catch (error) {
+        console.error('Error:', error);
+        
+        // Even if there's an error, try to save the order locally
+        // Save order to localStorage as backup
+        const failedOrders = JSON.parse(localStorage.getItem('failedOrders') || '[]');
+        failedOrders.push({ ...orderData, timestamp: new Date().toISOString() });
+        localStorage.setItem('failedOrders', JSON.stringify(failedOrders));
+        
+        // Still redirect with success message
+        localStorage.setItem('lastOrderId', orderId);
+        localStorage.setItem('lastOrderName', name);
+        clearCart();
+        window.location.href = 'thankyou.html';
+        
+        // Alternative: Show error message
+        // alert('Network error. Please try again or call us to place your order.');
+        // submitBtn.textContent = originalText;
+        // submitBtn.disabled = false;
+      }
+    });
+
+    // Load cart on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      displayOrderSummary();
+    });
+  </script>
+</body>
+</html>

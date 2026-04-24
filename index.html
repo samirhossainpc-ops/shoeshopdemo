@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShoeHub – Step Into Style</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-logo">SHOE<span class="accent">HUB</span></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#shop">Shop</a>
+      <a href="#categories">Categories</a>
+      <a href="#contact">Contact</a>
+      <button id="cart-btn" aria-label="Cart">
+        <i data-feather="shopping-cart"></i>
+        <span id="cart-count" class="cart-count">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-overlay">
+      <h1>Step Into Style</h1>
+      <p>Premium imported shoes, delivered to your door. Cash on delivery.</p>
+      <a href="#shop" class="btn btn-primary">Shop Now</a>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section id="categories" class="section">
+    <h2 class="section-title">Shop by Category</h2>
+    <div class="categories-grid">
+      <div class="category-card">Sneakers</div>
+      <div class="category-card">Casual</div>
+      <div class="category-card">Formal</div>
+      <div class="category-card">Women</div>
+    </div>
+  </section>
+
+  <!-- Trending Products -->
+  <section id="shop" class="section">
+    <h2 class="section-title">Trending Now</h2>
+    <div id="trending-container" class="product-grid"></div>
+  </section>
+
+  <!-- Trust Section -->
+  <section class="trust section">
+    <div class="trust-item"><i data-feather="truck"></i><span>Fast Delivery</span></div>
+    <div class="trust-item"><i data-feather="repeat"></i><span>Easy 7-Day Exchange</span></div>
+    <div class="trust-item"><i data-feather="dollar-sign"></i><span>Cash on Delivery</span></div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="section reviews">
+    <h2 class="section-title">What Our Customers Say</h2>
+    <div class="review-cards">
+      <div class="review-card">
+        <img src="https://i.pravatar.cc/60?img=12" alt="Customer">
+        <p>"Best quality shoes I've bought online!"</p>
+        <strong>– Rima, Dhaka</strong>
+      </div>
+      <div class="review-card">
+        <img src="https://i.pravatar.cc/60?img=5" alt="Customer">
+        <p>"Cash on delivery made it so easy."</p>
+        <strong>– Sajid, Chittagong</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact" class="footer">
+    <p>📞 Call us: <a href="tel:+8801XXXXXXXXX">+8801XXXXXXXXX</a></p>
+    <p>📧 Email: support@shoehub.com</p>
+    <div class="social-links">
+      <a href="#"><i data-feather="facebook"></i></a>
+      <a href="#"><i data-feather="instagram"></i></a>
+    </div>
+    <p class="copyright">© 2025 ShoeHub. All rights reserved.</p>
+  </footer>
+
+  <!-- Cart Panel -->
+  <div id="cart-overlay" class="cart-overlay"></div>
+  <div id="cart-panel" class="cart-panel">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button id="close-cart"><i data-feather="x"></i></button>
+    </div>
+    <div id="cart-items" class="cart-items"></div>
+    <div class="cart-footer">
+      <div class="cart-total">Total: ৳<span id="cart-total">0</span></div>
+      <a href="checkout.html" class="btn btn-primary btn-block">Proceed to Checkout</a>
+    </div>
+  </div>
+
+  <!-- WhatsApp Button -->
+  <a href="https://wa.me/8801XXXXXXXXX" class="whatsapp-float" target="_blank">
+    <i data-feather="message-circle"></i>
+  </a>
+
+  <script src="products.js"></script>
+  <script src="cart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('trending-container');
+      if (container) {
+        const trending = products.slice(0, 8);
+        trending.forEach(product => {
+          const card = document.createElement('a');
+          card.href = `product.html?id=${product.id}`;
+          card.className = 'product-card';
+          card.innerHTML = `
+            <div class="product-image">
+              <img src="${product.images[0]}" alt="${product.name}">
+              ${product.badge ? `<span class="badge">${product.badge}</span>` : ''}
+            </div>
+            <div class="product-info">
+              <h3>${product.name}</h3>
+              <div class="product-price">
+                <span class="current-price">৳${product.price}</span>
+                ${product.originalPrice ? `<span class="original-price">৳${product.originalPrice}</span>` : ''}
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+      feather.replace();
+    });
+  </script>
+</body>
+</html>
