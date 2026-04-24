@@ -103,6 +103,8 @@
     .cart-items { flex: 1; overflow-y: auto; padding: 16px; }
     .cart-footer { padding: 20px; border-top: 2px solid #eee; text-align: center; }
     .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; animation: fadeIn 0.3s ease; }
+    .cart-item-row .remove-btn { background: none; border: none; color: #ff4444; font-size: 1.2rem; cursor: pointer; padding: 4px 8px; border-radius: 8px; transition: var(--transition); }
+    .cart-item-row .remove-btn:hover { background: #fff0f0; transform: scale(1.2); }
 
     /* ========== CHECKOUT ========== */
     #checkout-page { display: none; padding: 20px; max-width: 500px; margin: 0 auto; animation: fadeIn 0.4s ease; }
@@ -219,14 +221,33 @@
     let currentProduct = null;
 
     function saveCart() { localStorage.setItem('shoehub_cart', JSON.stringify(cart)); updateCartUI(); }
-    
+
+    function removeFromCart(productId, size) {
+      cart = cart.filter(item => !(item.productId === productId && item.size === size));
+      saveCart();
+    }
+
     function updateCartUI() {
       const count = cart.reduce((s,i) => s + i.qty, 0);
       document.getElementById('cart-count').textContent = count;
       let total = 0, html = '';
       cart.forEach(item => {
         const p = products.find(x => x.id === item.productId);
-        if (p) { total += p.price * item.qty; html += `<div class="cart-item-row"><span>${p.name}<br><small style="color:#888;">UK ${item.size} x${item.qty}</small></span><span style="font-weight:600;">৳${p.price * item.qty}</span></div>`; }
+        if (p) {
+          total += p.price * item.qty;
+          html += `
+            <div class="cart-item-row">
+              <div>
+                <strong>${p.name}</strong><br>
+                <small style="color:#888;">UK ${item.size} x${item.qty}</small>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-weight:600;">৳${p.price * item.qty}</span>
+                <button class="remove-btn" onclick="event.stopPropagation(); removeFromCart(${item.productId}, ${item.size})" title="Remove item">✕</button>
+              </div>
+            </div>
+          `;
+        }
       });
       document.getElementById('cart-items-list').innerHTML = html || '<p style="text-align:center;color:#999;padding:40px 0;">Cart is empty</p>';
       document.getElementById('cart-total').textContent = total;
