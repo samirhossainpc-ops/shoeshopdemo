@@ -7,14 +7,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root { --accent: #FF6B00; --accent-dark: #e65c00; --black: #121212; --white: #ffffff; --gray-light: #f8f8f8; --gray-mid: #e0e0e0; --radius: 16px; --shadow: 0 4px 20px rgba(0,0,0,0.08); --shadow-hover: 0 8px 30px rgba(0,0,0,0.15); --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-    
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--black); line-height: 1.6; overflow-x: hidden; }
     h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
     a { text-decoration: none; color: inherit; }
 
-    /* ========== NAVIGATION ========== */
     .nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); box-shadow: 0 2px 20px rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 100; animation: slideDown 0.5s ease; }
     @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     .nav-logo { font-size: 1.6rem; font-weight: 800; cursor: pointer; letter-spacing: -0.5px; transition: var(--transition); }
@@ -27,7 +25,6 @@
     .cart-count { position: absolute; top: 0; right: 0; background: var(--accent); color: white; border-radius: 50%; padding: 2px 7px; font-size: 0.7rem; font-weight: 700; animation: popIn 0.3s ease; }
     @keyframes popIn { 0% { transform: scale(0); } 80% { transform: scale(1.2); } 100% { transform: scale(1); } }
 
-    /* ========== HERO ========== */
     .hero { background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200') center/cover; color: white; padding: 140px 24px 120px; text-align: center; position: relative; overflow: hidden; }
     .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(255,107,0,0.3), transparent 60%); }
     .hero-overlay { position: relative; z-index: 1; animation: fadeInUp 0.8s ease; }
@@ -43,44 +40,47 @@
     .btn-outline:hover { background: var(--accent); color: white; transform: translateY(-2px); }
     .btn-block { width: 100%; display: block; }
 
-    /* ========== SECTIONS ========== */
     .section { padding: 50px 20px; }
     .section-title { text-align: center; margin-bottom: 30px; font-size: 1.8rem; font-weight: 700; position: relative; }
     .section-title::after { content: ''; display: block; width: 50px; height: 3px; background: var(--accent); margin: 10px auto 0; border-radius: 2px; }
 
-    /* ========== PRODUCT GRID ========== */
+    .category-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+    .category-tab { padding: 10px 22px; border-radius: 100px; border: 2px solid var(--gray-mid); background: white; cursor: pointer; font-weight: 600; font-family: 'Inter', sans-serif; transition: var(--transition); }
+    .category-tab:hover { border-color: var(--accent); color: var(--accent); }
+    .category-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+
     .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
     .product-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); cursor: pointer; overflow: hidden; transition: var(--transition); animation: fadeInUp 0.6s ease both; }
     .product-card:nth-child(1) { animation-delay: 0.1s; }
     .product-card:nth-child(2) { animation-delay: 0.2s; }
     .product-card:nth-child(3) { animation-delay: 0.3s; }
     .product-card:nth-child(4) { animation-delay: 0.4s; }
+    .product-card:nth-child(5) { animation-delay: 0.5s; }
+    .product-card:nth-child(6) { animation-delay: 0.6s; }
+    .product-card:nth-child(7) { animation-delay: 0.7s; }
+    .product-card:nth-child(8) { animation-delay: 0.8s; }
     .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
     .product-card .img-wrap { overflow: hidden; }
     .product-card img { width: 100%; height: 200px; object-fit: cover; transition: transform 0.5s ease; }
     .product-card:hover img { transform: scale(1.08); }
     .product-info { padding: 14px; }
-    .product-info h3 { font-size: 0.9rem; margin-bottom: 6px; font-weight: 600; }
+    .product-info h3 { font-size: 0.9rem; margin-bottom: 4px; font-weight: 600; }
+    .product-info .category-label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
     .current-price { color: var(--accent); font-weight: 700; font-size: 1.1rem; }
     .original-price { text-decoration: line-through; color: #999; margin-left: 8px; font-size: 0.85rem; }
     .badge { display: inline-block; background: var(--accent); color: white; font-size: 0.7rem; padding: 4px 10px; border-radius: 20px; font-weight: 600; margin-top: 6px; letter-spacing: 0.5px; }
 
-    /* ========== TRUST ========== */
     .trust { display: flex; justify-content: space-around; background: var(--gray-light); padding: 28px 20px; border-radius: var(--radius); margin: 0 20px 40px; text-align: center; font-weight: 600; gap: 10px; flex-wrap: wrap; }
     .trust div { transition: var(--transition); padding: 10px; border-radius: 12px; }
     .trust div:hover { background: white; transform: translateY(-3px); box-shadow: var(--shadow); }
-
-    /* ========== FOOTER ========== */
     .footer { background: var(--black); color: white; text-align: center; padding: 32px 20px; }
     .footer a { color: var(--accent); font-weight: 500; transition: var(--transition); }
     .footer a:hover { color: white; }
 
-    /* ========== WHATSAPP ========== */
     .whatsapp-float { position: fixed; bottom: 24px; right: 24px; background: #25D366; color: white; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; box-shadow: 0 6px 20px rgba(37,211,102,0.4); z-index: 150; animation: pulse 2s infinite; transition: var(--transition); }
     .whatsapp-float:hover { transform: scale(1.1); animation: none; }
     @keyframes pulse { 0%, 100% { box-shadow: 0 6px 20px rgba(37,211,102,0.4); } 50% { box-shadow: 0 6px 30px rgba(37,211,102,0.7); } }
 
-    /* ========== PRODUCT DETAIL ========== */
     #product-detail-page { display: none; padding: 20px; animation: fadeIn 0.4s ease; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     #product-detail-page img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); transition: var(--transition); }
@@ -92,7 +92,6 @@
     .cta-buttons { display: flex; gap: 12px; margin-top: 20px; }
     .cta-buttons .btn { flex: 1; }
 
-    /* ========== CART PANEL ========== */
     .cart-panel { position: fixed; top: 0; right: -100%; width: 320px; max-width: 90vw; height: 100%; background: white; box-shadow: -4px 0 30px rgba(0,0,0,0.15); z-index: 200; transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; border-radius: 20px 0 0 20px; }
     .cart-panel.open { right: 0; }
     .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 199; display: none; animation: fadeIn 0.3s ease; }
@@ -106,13 +105,11 @@
     .cart-item-row .remove-btn { background: none; border: none; color: #ff4444; font-size: 1.2rem; cursor: pointer; padding: 4px 8px; border-radius: 8px; transition: var(--transition); }
     .cart-item-row .remove-btn:hover { background: #fff0f0; transform: scale(1.2); }
 
-    /* ========== CHECKOUT ========== */
     #checkout-page { display: none; padding: 20px; max-width: 500px; margin: 0 auto; animation: fadeIn 0.4s ease; }
     #checkout-page input, #checkout-page textarea { width: 100%; padding: 14px; margin-bottom: 14px; border: 2px solid #e0e0e0; border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 1rem; transition: var(--transition); }
     #checkout-page input:focus, #checkout-page textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(255,107,0,0.1); }
     .checkout-item-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
 
-    /* ========== THANK YOU ========== */
     #thankyou-page { display: none; text-align: center; padding: 80px 20px; animation: fadeInUp 0.5s ease; }
     .check-icon { width: 80px; height: 80px; background: #4CAF50; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 20px; animation: popIn 0.5s ease; }
   </style>
@@ -131,13 +128,19 @@
     <section class="hero">
       <div class="hero-overlay">
         <h1>Step Into Style</h1>
-        <p>Premium imported shoes, delivered to your door. Cash on delivery.</p>
+        <p>Premium Shoes, Shirts & Pants — Delivered to your door. Cash on delivery.</p>
         <button class="btn btn-primary" onclick="document.getElementById('product-list').scrollIntoView({behavior:'smooth'})">Shop Now →</button>
       </div>
     </section>
 
     <section class="section">
-      <h2 class="section-title">Trending Now</h2>
+      <h2 class="section-title">Our Collection</h2>
+      <div class="category-tabs">
+        <button class="category-tab active" onclick="filterProducts('all', this)">All</button>
+        <button class="category-tab" onclick="filterProducts('Shoes', this)">👟 Shoes</button>
+        <button class="category-tab" onclick="filterProducts('Shirts', this)">👕 Shirts</button>
+        <button class="category-tab" onclick="filterProducts('Pants', this)">👖 Pants</button>
+      </div>
       <div id="product-list" class="product-grid"></div>
     </section>
 
@@ -158,6 +161,7 @@
     <button class="btn btn-outline" onclick="showHome()" style="margin-bottom:20px;">← Back to Shop</button>
     <img id="detail-image" src="" alt="Product">
     <h2 id="detail-name" style="margin-top:20px; font-size:1.5rem;"></h2>
+    <p id="detail-category" style="color:#888;font-size:0.85rem;text-transform:uppercase;letter-spacing:1px;"></p>
     <p style="font-size:1.4rem;color:var(--accent);font-weight:700;margin:8px 0;">৳<span id="detail-price"></span> <span id="detail-original" style="text-decoration:line-through;color:#999;font-size:1rem;margin-left:8px;"></span></p>
     <p style="font-weight:600;margin-top:16px;">Select Size:</p>
     <div id="detail-sizes" class="size-options"></div>
@@ -209,16 +213,32 @@
   <a href="https://wa.me/8801XXXXXXXXX" class="whatsapp-float" target="_blank" title="Chat on WhatsApp">💬</a>
 
   <script>
+    // ==========================================
+    // GOOGLE APPS SCRIPT WEB APP URL
+    // ==========================================
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxOV8pQxrFupC8cR0ZxKPLLoOjZEq3hCBWioUt_Si6-QW0vAsHXDGHb2gkHB3puZun/exec';
+    // ==========================================
+
     const products = [
-      { id: 1, name: "Air Runner Sneaker", price: 2499, originalPrice: 3200, images: ["https://images.unsplash.com/photo-1597045566677-8e0c360f5c4a?w=400"], sizes: [6,7,8,9,10], badge: "Best Seller", features: ["Breathable mesh upper","Cushioned sole for comfort","Perfect for daily wear"] },
-      { id: 2, name: "Classic Leather Loafer", price: 2899, originalPrice: 3500, images: ["https://images.unsplash.com/photo-1543163521-1bf539c7cd36?w=400"], sizes: [7,8,9,10], badge: "Trending", features: ["Premium genuine leather","Memory foam insole","Formal & smart casual"] },
-      { id: 3, name: "Sport Flex Runner", price: 1999, originalPrice: 2500, images: ["https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400"], sizes: [6,7,8,9,10,11], badge: "New Arrival", features: ["Ultra lightweight design","Flexible rubber sole","Ideal for running & sports"] },
-      { id: 4, name: "Urban Casual Sneaker", price: 2299, originalPrice: 2800, images: ["https://images.unsplash.com/photo-1603487742131-2d6e1f12d873?w=400"], sizes: [7,8,9,10], badge: "Popular", features: ["Canvas textile upper","Casual everyday style","Extra comfort padding"] }
+      // === SHOES ===
+      { id: 1, category: "Shoes", name: "White High Top Skate Shoes", price: 1899, originalPrice: 2500, images: ["https://i.ibb.co/3y718p48/Screenshot-2026-04-24-212215.png"], sizes: [6,7,8,9,10], badge: "Best Seller", features: ["Thick sole for extra comfort","High top design for ankle support","Perfect for casual & skate wear","Unisex — men & women"] },
+      { id: 2, category: "Shoes", name: "Sport Flex Runner", price: 2299, originalPrice: 3000, images: ["https://i.ibb.co/99mHdMyp/3f034e7b7c0738bbbe11e2820f7c0e16.jpg"], sizes: [6,7,8,9,10,11], badge: "New Arrival", features: ["Ultra lightweight design","Flexible rubber sole","Ideal for running & sports","Breathable mesh upper"] },
+      { id: 3, category: "Shoes", name: "Urban Casual Sneaker", price: 2099, originalPrice: 2700, images: ["https://i.ibb.co/HD1mw9xT/72eb5d8a84d6f451822918be48216b98.jpg"], sizes: [7,8,9,10], badge: "Popular", features: ["Canvas textile upper","Casual everyday style","Extra comfort padding","Slip-resistant sole"] },
+
+      // === SHIRTS ===
+      { id: 4, category: "Shirts", name: "Premium Cotton Casual Shirt", price: 1299, originalPrice: 1800, images: ["https://i.ibb.co/G35c5fcM/72db647c8fccbf88ef63ee78132a1358.jpg"], sizes: ["M","L","XL","XXL"], badge: "Trending", features: ["100% premium cotton","Slim fit design","Perfect for casual & formal","Breathable fabric"] },
+      { id: 5, category: "Shirts", name: "Classic Fit Polo Shirt", price: 1499, originalPrice: 2000, images: ["https://i.ibb.co/Xf7WWf3k/62146938c489f5e867199ad81ade8243.jpg"], sizes: ["M","L","XL","XXL"], badge: "Best Seller", features: ["Soft pique cotton","Classic collar design","Comfortable regular fit","Ideal for everyday wear"] },
+      { id: 6, category: "Shirts", name: "Linen Summer Shirt", price: 1699, images: ["https://i.ibb.co/7Nvnf0PB/e7ecb2ed33f2915bf78a9c4816cab6e6.webp"], sizes: ["M","L","XL","XXL"], badge: "New", features: ["Lightweight linen blend","Relaxed fit","Perfect for summer","Breathable & stylish"] },
+
+      // === PANTS ===
+      { id: 7, category: "Pants", name: "Slim Fit Chino Pants", price: 1799, originalPrice: 2400, images: ["https://i.ibb.co/XxTyqyVD/00b533372a6093b86be173f8f3ea4d79.jpg"], sizes: ["28","30","32","34","36"], badge: "Popular", features: ["Stretch cotton fabric","Slim tapered fit","Comfortable all-day wear","Perfect for casual & semi-formal"] },
+      { id: 8, category: "Pants", name: "Classic Denim Jeans", price: 1999, originalPrice: 2600, images: ["https://i.ibb.co/60d5fqXW/a648782ed02393231a016d11a7cd8b39.jpg"], sizes: ["28","30","32","34","36"], badge: "Trending", features: ["Premium denim fabric","Straight fit","Classic 5-pocket design","Durable & stylish"] }
     ];
 
     let cart = JSON.parse(localStorage.getItem('shoehub_cart') || '[]');
     let selectedSize = null;
     let currentProduct = null;
+    let activeCategory = 'all';
 
     function saveCart() { localStorage.setItem('shoehub_cart', JSON.stringify(cart)); updateCartUI(); }
 
@@ -239,11 +259,11 @@
             <div class="cart-item-row">
               <div>
                 <strong>${p.name}</strong><br>
-                <small style="color:#888;">UK ${item.size} x${item.qty}</small>
+                <small style="color:#888;">${p.category} | Size: ${item.size} x${item.qty}</small>
               </div>
               <div style="display:flex;align-items:center;gap:8px;">
                 <span style="font-weight:600;">৳${p.price * item.qty}</span>
-                <button class="remove-btn" onclick="event.stopPropagation(); removeFromCart(${item.productId}, ${item.size})" title="Remove item">✕</button>
+                <button class="remove-btn" onclick="event.stopPropagation(); removeFromCart(${item.productId}, '${item.size}')" title="Remove item">✕</button>
               </div>
             </div>
           `;
@@ -264,7 +284,30 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function showHome() { showPage('home-page'); }
+    function showHome() { showPage('home-page'); renderProducts(); }
+
+    function filterProducts(cat, btn) {
+      activeCategory = cat;
+      document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderProducts();
+    }
+
+    function renderProducts() {
+      const filtered = activeCategory === 'all' ? products : products.filter(p => p.category === activeCategory);
+      document.getElementById('product-list').innerHTML = filtered.map(p => `
+        <div class="product-card" onclick="showProduct(${p.id})">
+          <div class="img-wrap"><img src="${p.images[0]}" alt="${p.name}" loading="lazy"></div>
+          <div class="product-info">
+            <div class="category-label">${p.category}</div>
+            <h3>${p.name}</h3>
+            <span class="current-price">৳${p.price}</span>
+            ${p.originalPrice ? `<span class="original-price">৳${p.originalPrice}</span>` : ''}
+            ${p.badge ? `<br><span class="badge">${p.badge}</span>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
     
     function showProduct(id) {
       const p = products.find(x => x.id === id); if (!p) return;
@@ -272,9 +315,10 @@
       showPage('product-detail-page');
       document.getElementById('detail-image').src = p.images[0];
       document.getElementById('detail-name').textContent = p.name;
+      document.getElementById('detail-category').textContent = p.category;
       document.getElementById('detail-price').textContent = p.price;
       document.getElementById('detail-original').textContent = p.originalPrice ? '৳' + p.originalPrice : '';
-      document.getElementById('detail-sizes').innerHTML = p.sizes.map(s => `<button class="size-btn" onclick="selectSize(${s}, this)">UK ${s}</button>`).join('');
+      document.getElementById('detail-sizes').innerHTML = p.sizes.map(s => `<button class="size-btn" onclick="selectSize('${s}', this)">${p.category === 'Shoes' ? 'UK ' : ''}${s}</button>`).join('');
       document.getElementById('detail-features').innerHTML = p.features.map(f => `<p style="margin:6px 0;">✅ ${f}</p>`).join('');
     }
 
@@ -291,24 +335,11 @@
       let total = 0, html = '';
       cart.forEach(item => {
         const p = products.find(x => x.id === item.productId);
-        if (p) { total += p.price * item.qty; html += `<div class="checkout-item-row"><span>${p.name} - UK${item.size} x${item.qty}</span><span>৳${p.price * item.qty}</span></div>`; }
+        if (p) { total += p.price * item.qty; html += `<div class="checkout-item-row"><span>${p.name} - Size: ${item.size} x${item.qty}</span><span>৳${p.price * item.qty}</span></div>`; }
       });
       document.getElementById('checkout-items').innerHTML = html;
       document.getElementById('checkout-total').textContent = total;
     }
-
-    // Render products
-    document.getElementById('product-list').innerHTML = products.map(p => `
-      <div class="product-card" onclick="showProduct(${p.id})">
-        <div class="img-wrap"><img src="${p.images[0]}" alt="${p.name}" loading="lazy"></div>
-        <div class="product-info">
-          <h3>${p.name}</h3>
-          <span class="current-price">৳${p.price}</span>
-          ${p.originalPrice ? `<span class="original-price">৳${p.originalPrice}</span>` : ''}
-          ${p.badge ? `<br><span class="badge">${p.badge}</span>` : ''}
-        </div>
-      </div>
-    `).join('');
 
     // Buttons
     document.getElementById('detail-add-cart').onclick = () => {
@@ -325,7 +356,7 @@
       saveCart(); showCheckout();
     };
 
-    // Order submit → Formspree
+    // Order submit → Google Apps Script
     document.getElementById('order-form').onsubmit = function(e) {
       e.preventDefault();
       const name = document.getElementById('cust-name').value.trim();
@@ -333,37 +364,31 @@
       const address = document.getElementById('cust-address').value.trim();
       if (!name || !phone || !address) { alert('Please fill all required fields!'); return; }
       const orderId = 'ORD-' + Date.now();
-      const items = cart.map(i => { const p = products.find(x => x.id === i.productId); return { name: p?p.name:'Unknown', size: i.size, qty: i.qty, price: p?p.price:0 }; });
-      const total = items.reduce((s,i) => s + i.price*i.qty, 0);
+      const items = cart.map(i => {
+        const p = products.find(x => x.id === i.productId);
+        return { name: p ? p.name : 'Unknown', size: i.size, qty: i.qty, price: p ? p.price : 0 };
+      });
+      const total = items.reduce((s,i) => s + i.price * i.qty, 0);
       
-      // Send to Formspree
-      fetch('https://formspree.io/f/maqavqvv', {
+      fetch(SCRIPT_URL, {
         method: 'POST',
-        body: JSON.stringify({
-          orderId: orderId,
-          customerName: name,
-          phone: phone,
-          address: address,
-          items: items,
-          total: total,
-          _subject: 'New Order #' + orderId
-        }),
-        headers: { 'Content-Type': 'application/json' }
+        body: JSON.stringify({ orderId, name, phone, address, items, total }),
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'no-cors'
       })
-      .then(response => {
-        if (response.ok) {
-          cart = []; saveCart();
-          showPage('thankyou-page');
-          document.getElementById('order-id').textContent = orderId;
-        } else {
-          alert('Something went wrong. Please try again.');
-        }
+      .then(() => {
+        cart = []; saveCart();
+        showPage('thankyou-page');
+        document.getElementById('order-id').textContent = orderId;
       })
-      .catch(error => {
-        alert('Network error. Please check your connection.');
+      .catch(() => {
+        cart = []; saveCart();
+        showPage('thankyou-page');
+        document.getElementById('order-id').textContent = orderId;
       });
     };
 
+    renderProducts();
     updateCartUI();
   </script>
 </body>
