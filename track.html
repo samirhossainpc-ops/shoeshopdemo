@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Your Order – ShoeHub</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8f8f8; color: #222; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .tracker-box { background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 30px; max-width: 480px; width: 100%; text-align: center; }
+    h2 { color: #FF6B00; margin-bottom: 8px; }
+    p { color: #666; margin-bottom: 20px; }
+    input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem; margin-bottom: 12px; }
+    button { width: 100%; padding: 12px; background: #FF6B00; color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer; }
+    .result { margin-top: 24px; display: none; }
+    .status-badge { display: inline-block; padding: 8px 20px; border-radius: 20px; font-weight: 700; font-size: 1.1rem; margin-bottom: 12px; }
+    .status-Processing { background: #FFF3CD; color: #856404; }
+    .status-Shipped { background: #D4EDFF; color: #004085; }
+    .status-Delivered { background: #D4EDDA; color: #155724; }
+    .order-details { text-align: left; background: #f9f9f9; padding: 16px; border-radius: 10px; margin-top: 12px; }
+    .order-details p { margin-bottom: 8px; color: #333; }
+    .error { color: red; margin-top: 10px; }
+    .back-link { display: block; margin-top: 24px; color: #FF6B00; text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="tracker-box">
+    <h2>Track Your Order</h2>
+    <p>Enter your Order ID (e.g., ORD-1234567890)</p>
+    <input type="text" id="order-id-input" placeholder="Order ID">
+    <button onclick="trackOrder()">Track Status</button>
+    <div class="error" id="error-msg"></div>
+    <div class="result" id="result-box">
+      <div class="status-badge" id="status-badge"></div>
+      <div class="order-details" id="order-details"></div>
+    </div>
+    <a href="index.html" class="back-link">← Back to Shop</a>
+  </div>
+
+  <script>
+    // Use exactly the same URL as in index.html and admin.html
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxOV8pQxrFupC8cR0ZxKPLLoOjZEq3hCBWioUt_Si6-QW0vAsHXDGHb2gkHB3puZun/exec';
+
+    function trackOrder() {
+      const orderId = document.getElementById('order-id-input').value.trim();
+      const errorEl = document.getElementById('error-msg');
+      const resultBox = document.getElementById('result-box');
+      errorEl.textContent = '';
+      resultBox.style.display = 'none';
+
+      if (!orderId) {
+        errorEl.textContent = 'Please enter an Order ID.';
+        return;
+      }
+
+      fetch(SCRIPT_URL + '?action=track&orderId=' + encodeURIComponent(orderId))
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            errorEl.textContent = data.error === 'Order not found' ? 'Order not found. Check your Order ID.' : data.error;
+            return;
+          }
+          const status = data.status || 'Processing';
+          const badge = document.getElementById('status-badge');
+          badge.textContent = status;
+          badge.className = 'status-badge status-' + status.replace(/\s+/g, '-');
+
+          const details = document.getElementById('order-details');
+          details.innerHTML = `
+            <p><strong>Order ID:</strong> ${data.orderId}</p>
+            <p><strong>Customer:</strong> ${data.name}</p>
+            <p><strong>Items:</strong> ${data.items}</p>
+            <p><strong>Total:</strong> ${data.total}</p>
+            <p><strong>Status:</strong> ${status}</p>
+          `;
+          resultBox.style.display = 'block';
+        })
+        .catch(err => {
+          errorEl.textContent = 'Network error. Please try again.';
+          console.error(err);
+        });
+    }
+
+    // Allow Enter key to trigger search
+    document.getElementById('order-id-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') trackOrder();
+    });
+  </script>
+</body>
+</html>
