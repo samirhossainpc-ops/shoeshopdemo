@@ -26,7 +26,6 @@
   </style>
 </head>
 <body>
-  <!-- Login Screen -->
   <div id="login-screen" class="login-box">
     <h2>Admin Login</h2>
     <input type="password" id="password-input" placeholder="Enter password">
@@ -34,7 +33,6 @@
     <p id="login-error" style="color:red; margin-top:8px;"></p>
   </div>
 
-  <!-- Dashboard (hidden until login) -->
   <div id="dashboard" class="dashboard hidden">
     <button class="logout-btn" onclick="logout()">Logout</button>
     <h1>Order Management</h1>
@@ -42,13 +40,12 @@
   </div>
 
   <script>
-    // ===== CONFIGURATION =====
+    // Use EXACTLY the same URL as in index.html
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxOV8pQxrFupC8cR0ZxKPLLoOjZEq3hCBWioUt_Si6-QW0vAsHXDGHb2gkHB3puZun/exec';
-    const ADMIN_PASSWORD = 'admin123';   // Change this to your own password
+    const ADMIN_PASSWORD = 'admin123';   // Change to a strong password
 
     let orders = [];
 
-    // ===== LOGIN =====
     function login() {
       const pwd = document.getElementById('password-input').value;
       if (pwd === ADMIN_PASSWORD) {
@@ -66,43 +63,27 @@
       document.getElementById('password-input').value = '';
     }
 
-    // ===== FETCH ORDERS =====
     function fetchOrders() {
       document.getElementById('orders-container').innerHTML = '<div class="loading">Loading orders…</div>';
       fetch(SCRIPT_URL + '?action=list')
-        .then(response => response.json())
+        .then(r => r.json())
         .then(data => {
           orders = data;
           renderOrders();
         })
         .catch(err => {
-          document.getElementById('orders-container').innerHTML = '<p style="color:red;">Failed to load orders. Check console.</p>';
+          document.getElementById('orders-container').innerHTML = '<p style="color:red;">Failed to load.</p>';
           console.error(err);
         });
     }
 
-    // ===== RENDER TABLE =====
     function renderOrders() {
       if (orders.length === 0) {
         document.getElementById('orders-container').innerHTML = '<p>No orders yet.</p>';
         return;
       }
-      let html = `<table>
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Date</th>
-            <th>Customer</th>
-            <th>Phone</th>
-            <th>Address</th>
-            <th>Items</th>
-            <th>Total</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>`;
+      let html = `<table><thead><tr><th>Order ID</th><th>Date</th><th>Customer</th><th>Phone</th><th>Address</th><th>Items</th><th>Total</th><th>Status</th></tr></thead><tbody>`;
       orders.forEach(order => {
-        const statusClass = order.status ? order.status.replace(/\s+/g, '-') : 'Processing';
         html += `<tr>
           <td>${order.orderId}</td>
           <td>${new Date(order.date).toLocaleString()}</td>
@@ -124,32 +105,18 @@
       document.getElementById('orders-container').innerHTML = html;
     }
 
-    // ===== UPDATE ORDER STATUS =====
     function updateStatus(orderId, newStatus) {
       fetch(SCRIPT_URL, {
         method: 'POST',
-        body: JSON.stringify({
-          action: 'updateStatus',
-          orderId: orderId,
-          newStatus: newStatus
-        }),
+        body: JSON.stringify({ action: 'updateStatus', orderId: orderId, newStatus: newStatus }),
         headers: { 'Content-Type': 'application/json' },
         mode: 'no-cors'
-      })
-      .then(() => {
-        // Update the local array
-        const order = orders.find(o => o.orderId === orderId);
-        if (order) order.status = newStatus;
-        // No need to re-render the whole table; the dropdown already changed.
-        // But we can update any visual indicator if needed.
-      })
-      .catch(err => console.error(err));
+      });
+      const order = orders.find(o => o.orderId === orderId);
+      if (order) order.status = newStatus;
     }
 
-    // Allow pressing Enter in the password field
-    document.getElementById('password-input').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') login();
-    });
+    document.getElementById('password-input').addEventListener('keypress', e => { if (e.key === 'Enter') login(); });
   </script>
 </body>
 </html>
