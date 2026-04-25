@@ -26,29 +26,26 @@
       top: 0; 
       z-index: 100; 
       animation: slideDown 0.5s ease; 
-      flex-wrap: nowrap;          /* force single row */
+      flex-wrap: nowrap;
       gap: 8px;
     }
     @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    
     .nav-logo { 
       font-size: 1.3rem; 
       font-weight: 800; 
       cursor: pointer; 
       letter-spacing: -0.5px; 
-      transition: var(--transition); 
       white-space: nowrap; 
-      flex-shrink: 0;            /* don't shrink logo */
+      flex-shrink: 0;
     }
     .nav-logo:hover { transform: scale(1.05); }
     .accent { color: var(--accent); }
     
-    /* Search area */
     .search-wrap { 
       position: relative; 
-      flex: 1 1 auto;             /* can shrink */
-      min-width: 0;               /* allow shrinking below min content */
-      max-width: 200px;           /* maximum size */
+      flex: 1 1 auto;
+      min-width: 0;
+      max-width: 200px;
     }
     .search-wrap input { 
       width: 100%; 
@@ -94,11 +91,10 @@
     .search-result-item span { font-weight: 600; font-size: 0.8rem; }
     .search-result-item small { color: #888; font-size: 0.7rem; }
 
-    /* Cart button */
     .nav-links { 
       display: flex; 
       align-items: center; 
-      flex-shrink: 0;            /* don't shrink cart */
+      flex-shrink: 0;
     }
     .cart-btn { 
       position: relative; 
@@ -292,6 +288,7 @@
   <a href="https://wa.me/8801XXXXXXXXX" class="whatsapp-float" target="_blank">💬</a>
 
   <script>
+    // Google Apps Script Web App URL
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxOV8pQxrFupC8cR0ZxKPLLoOjZEq3hCBWioUt_Si6-QW0vAsHXDGHb2gkHB3puZun/exec';
 
     const products = [
