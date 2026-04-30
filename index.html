@@ -13,133 +13,42 @@
     h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
     a { text-decoration: none; color: inherit; }
 
-    /* ===== NAVIGATION ===== */
-    .nav { 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      padding: 10px 14px; 
-      background: rgba(255,255,255,0.95); 
-      backdrop-filter: blur(10px); 
-      box-shadow: 0 2px 20px rgba(0,0,0,0.06); 
-      position: sticky; 
-      top: 0; 
-      z-index: 100; 
-      animation: slideDown 0.5s ease; 
-      flex-wrap: nowrap;
-      gap: 8px;
-    }
+    .nav { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); box-shadow: 0 2px 20px rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 100; animation: slideDown 0.5s ease; flex-wrap: nowrap; gap: 8px; }
     @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    .nav-logo { 
-      font-size: 1.3rem; 
-      font-weight: 800; 
-      cursor: pointer; 
-      letter-spacing: -0.5px; 
-      white-space: nowrap; 
-      flex-shrink: 0;
-    }
+    .nav-logo { font-size: 1.3rem; font-weight: 800; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
     .nav-logo:hover { transform: scale(1.05); }
     .accent { color: var(--accent); }
-    
-    .search-wrap { 
-      position: relative; 
-      flex: 1 1 auto;
-      min-width: 0;
-      max-width: 200px;
-    }
-    .search-wrap input { 
-      width: 100%; 
-      padding: 8px 12px; 
-      border: 2px solid var(--gray-mid); 
-      border-radius: 100px; 
-      font-family: 'Inter', sans-serif; 
-      font-size: 0.8rem; 
-      transition: var(--transition); 
-      outline: none; 
-      background: white;
-    }
-    .search-wrap input:focus { 
-      border-color: var(--accent); 
-      box-shadow: 0 0 0 3px rgba(255,107,0,0.1); 
-    }
-    .search-results { 
-      position: absolute; 
-      top: 100%; 
-      left: 0; 
-      right: 0; 
-      background: white; 
-      border-radius: 12px; 
-      box-shadow: 0 8px 30px rgba(0,0,0,0.15); 
-      max-height: 220px; 
-      overflow-y: auto; 
-      z-index: 300; 
-      display: none; 
-      margin-top: 6px; 
-    }
+    .search-wrap { position: relative; flex: 1 1 auto; min-width: 0; max-width: 200px; }
+    .search-wrap input { width: 100%; padding: 8px 12px; border: 2px solid var(--gray-mid); border-radius: 100px; font-size: 0.8rem; outline: none; background: white; }
+    .search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,107,0,0.1); }
+    .search-results { position: absolute; top: 100%; left: 0; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); max-height: 220px; overflow-y: auto; z-index: 300; display: none; margin-top: 6px; }
     .search-results.show { display: block; }
-    .search-result-item { 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
-      padding: 8px 12px; 
-      cursor: pointer; 
-      transition: var(--transition); 
-      border-bottom: 1px solid #f5f5f5; 
-    }
+    .search-result-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #f5f5f5; }
     .search-result-item:hover { background: #fff5f0; }
     .search-result-item img { width: 36px; height: 36px; border-radius: 6px; object-fit: cover; }
-    .search-result-item span { font-weight: 600; font-size: 0.8rem; }
-    .search-result-item small { color: #888; font-size: 0.7rem; }
-
-    .nav-links { 
-      display: flex; 
-      align-items: center; 
-      flex-shrink: 0;
-    }
-    .cart-btn { 
-      position: relative; 
-      font-size: 1.3rem !important; 
-      background: none; 
-      border: none; 
-      cursor: pointer; 
-      padding: 6px;
-    }
-    .cart-count { 
-      position: absolute; 
-      top: -2px; 
-      right: -5px; 
-      background: var(--accent); 
-      color: white; 
-      border-radius: 50%; 
-      padding: 2px 6px; 
-      font-size: 0.65rem; 
-      font-weight: 700; 
-      animation: popIn 0.3s ease; 
-    }
+    .nav-links { display: flex; align-items: center; flex-shrink: 0; }
+    .cart-btn { position: relative; font-size: 1.3rem; background: none; border: none; cursor: pointer; padding: 6px; }
+    .cart-count { position: absolute; top: -2px; right: -5px; background: var(--accent); color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.65rem; font-weight: 700; animation: popIn 0.3s ease; }
     @keyframes popIn { 0% { transform: scale(0); } 80% { transform: scale(1.2); } 100% { transform: scale(1); } }
 
-    /* ===== HERO ===== */
     .hero { background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200') center/cover; color: white; padding: 110px 20px 90px; text-align: center; position: relative; overflow: hidden; }
     .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(255,107,0,0.3), transparent 60%); }
     .hero-overlay { position: relative; z-index: 1; animation: fadeInUp 0.8s ease; }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    .hero h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -1px; }
+    .hero h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; }
     .hero p { font-size: 0.95rem; margin-bottom: 20px; opacity: 0.95; }
-    .btn { display: inline-block; padding: 12px 28px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer; text-align: center; transition: var(--transition); position: relative; overflow: hidden; font-family: 'Inter', sans-serif; }
-    .btn::after { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255,255,255,0.3); transition: all 0.5s; transform: translate(-50%, -50%); }
-    .btn:active::after { width: 300px; height: 300px; }
+    .btn { display: inline-block; padding: 12px 28px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer; text-align: center; transition: var(--transition); }
     .btn-primary { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(255,107,0,0.4); }
-    .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255,107,0,0.5); }
+    .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); }
     .btn-outline { border: 2px solid var(--accent); color: var(--accent); background: transparent; }
     .btn-outline:hover { background: var(--accent); color: white; transform: translateY(-2px); }
     .btn-block { width: 100%; display: block; }
 
     .section { padding: 35px 16px; }
-    .section-title { text-align: center; margin-bottom: 20px; font-size: 1.5rem; font-weight: 700; position: relative; }
+    .section-title { text-align: center; margin-bottom: 20px; font-size: 1.5rem; font-weight: 700; }
     .section-title::after { content: ''; display: block; width: 50px; height: 3px; background: var(--accent); margin: 6px auto 0; border-radius: 2px; }
-
     .category-tabs { display: flex; justify-content: center; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
-    .category-tab { padding: 7px 16px; border-radius: 100px; border: 2px solid var(--gray-mid); background: white; cursor: pointer; font-weight: 600; font-family: 'Inter', sans-serif; transition: var(--transition); font-size: 0.8rem; }
+    .category-tab { padding: 7px 16px; border-radius: 100px; border: 2px solid var(--gray-mid); background: white; cursor: pointer; font-weight: 600; font-size: 0.8rem; transition: var(--transition); }
     .category-tab:hover { border-color: var(--accent); color: var(--accent); }
     .category-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
 
@@ -156,21 +65,19 @@
     .original-price { text-decoration: line-through; color: #999; margin-left: 4px; font-size: 0.75rem; }
     .badge { display: inline-block; background: var(--accent); color: white; font-size: 0.6rem; padding: 2px 7px; border-radius: 20px; font-weight: 600; margin-top: 3px; }
 
-    .trust { display: flex; justify-content: space-around; background: var(--gray-light); padding: 20px 14px; border-radius: var(--radius); margin: 0 14px 30px; text-align: center; font-weight: 600; gap: 6px; flex-wrap: wrap; font-size: 0.8rem; }
-    .trust div { transition: var(--transition); padding: 6px; border-radius: 10px; }
-    .trust div:hover { background: white; transform: translateY(-2px); box-shadow: var(--shadow); }
+    .trust { display: flex; justify-content: space-around; background: var(--gray-light); padding: 20px 14px; border-radius: var(--radius); margin: 0 14px 30px; font-weight: 600; gap: 6px; flex-wrap: wrap; font-size: 0.8rem; }
+    .trust div { padding: 6px; border-radius: 10px; }
     .footer { background: var(--black); color: white; text-align: center; padding: 24px 14px; font-size: 0.85rem; }
     .footer a { color: var(--accent); font-weight: 500; }
     .whatsapp-float { position: fixed; bottom: 18px; right: 18px; background: #25D366; color: white; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; box-shadow: 0 6px 20px rgba(37,211,102,0.4); z-index: 150; animation: pulse 2s infinite; }
-    .whatsapp-float:hover { transform: scale(1.1); animation: none; }
     @keyframes pulse { 0%, 100% { box-shadow: 0 6px 20px rgba(37,211,102,0.4); } 50% { box-shadow: 0 6px 30px rgba(37,211,102,0.7); } }
 
     #product-detail-page { display: none; padding: 16px; animation: fadeIn 0.4s ease; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     #product-detail-page img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); }
     .size-options { display: flex; gap: 6px; margin: 10px 0; flex-wrap: wrap; }
-    .size-btn { padding: 8px 14px; border: 2px solid #e0e0e0; border-radius: 10px; background: white; cursor: pointer; font-weight: 600; transition: var(--transition); font-size: 0.85rem; }
-    .size-btn.selected { background: var(--accent); color: white; border-color: var(--accent); animation: popIn 0.3s ease; }
+    .size-btn { padding: 8px 14px; border: 2px solid #e0e0e0; border-radius: 10px; background: white; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+    .size-btn.selected { background: var(--accent); color: white; border-color: var(--accent); }
     .cta-buttons { display: flex; gap: 8px; margin-top: 16px; }
     .cta-buttons .btn { flex: 1; }
 
@@ -179,18 +86,15 @@
     .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 199; display: none; }
     .cart-overlay.open { display: block; }
     .cart-header { padding: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
-    .cart-header button { background: none; border: none; font-size: 1.3rem; cursor: pointer; width: 30px; height: 30px; border-radius: 50%; }
+    .cart-header button { background: none; border: none; font-size: 1.3rem; cursor: pointer; }
     .cart-items { flex: 1; overflow-y: auto; padding: 12px; }
     .cart-footer { padding: 16px; border-top: 2px solid #eee; text-align: center; }
     .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
-    .cart-item-row .remove-btn { background: none; border: none; color: #ff4444; font-size: 1rem; cursor: pointer; padding: 3px 6px; border-radius: 6px; }
+    .cart-item-row .remove-btn { background: none; border: none; color: #ff4444; font-size: 1rem; cursor: pointer; }
 
-    #checkout-page { display: none; padding: 16px; max-width: 420px; margin: 0 auto; animation: fadeIn 0.4s ease; }
-    #checkout-page input, #checkout-page textarea { width: 100%; padding: 10px; margin-bottom: 10px; border: 2px solid #e0e0e0; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 0.9rem; }
-    #checkout-page input:focus, #checkout-page textarea:focus { outline: none; border-color: var(--accent); }
-    .checkout-item-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; }
-
-    #thankyou-page { display: none; text-align: center; padding: 50px 16px; animation: fadeInUp 0.5s ease; }
+    #checkout-page { display: none; padding: 16px; max-width: 420px; margin: 0 auto; }
+    #checkout-page input, #checkout-page textarea { width: 100%; padding: 10px; margin-bottom: 10px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 0.9rem; }
+    #thankyou-page { display: none; text-align: center; padding: 50px 16px; }
     .check-icon { width: 60px; height: 60px; background: #4CAF50; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 14px; }
   </style>
 </head>
@@ -288,118 +192,200 @@
   <a href="https://wa.me/8801XXXXXXXXX" class="whatsapp-float" target="_blank">💬</a>
 
   <script>
-    // Google Apps Script Web App URL
+    // ==========================================
+    // GOOGLE APPS SCRIPT URL (replace if different)
+    // ==========================================
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxOV8pQxrFupC8cR0ZxKPLLoOjZEq3hCBWioUt_Si6-QW0vAsHXDGHb2gkHB3puZun/exec';
 
-    const products = [
-      { id: 1, category: "Shoes", name: "White High Top Skate Shoes", price: 1899, originalPrice: 2500, images: ["https://i.ibb.co/3y718p48/Screenshot-2026-04-24-212215.png"], sizes: [6,7,8,9,10], badge: "Best Seller", features: ["Thick sole","High top design","Casual & skate","Unisex"] },
-      { id: 2, category: "Shoes", name: "Sport Flex Runner", price: 2299, originalPrice: 3000, images: ["https://i.ibb.co/99mHdMyp/3f034e7b7c0738bbbe11e2820f7c0e16.jpg"], sizes: [6,7,8,9,10,11], badge: "New", features: ["Lightweight","Flexible sole","Running & sports","Breathable"] },
-      { id: 3, category: "Shoes", name: "Urban Casual Sneaker", price: 2099, originalPrice: 2700, images: ["https://i.ibb.co/HD1mw9xT/72eb5d8a84d6f451822918be48216b98.jpg"], sizes: [7,8,9,10], badge: "Popular", features: ["Canvas upper","Casual style","Comfort padding","Slip-resistant"] },
-      { id: 4, category: "Shirts", name: "Premium Cotton Casual Shirt", price: 1299, originalPrice: 1800, images: ["https://i.ibb.co/G35c5fcM/72db647c8fccbf88ef63ee78132a1358.jpg"], sizes: ["M","L","XL","XXL"], badge: "Trending", features: ["100% cotton","Slim fit","Casual & formal","Breathable"] },
-      { id: 5, category: "Shirts", name: "Classic Fit Polo Shirt", price: 1499, originalPrice: 2000, images: ["https://i.ibb.co/Xf7WWf3k/62146938c489f5e867199ad81ade8243.jpg"], sizes: ["M","L","XL","XXL"], badge: "Best Seller", features: ["Pique cotton","Classic collar","Regular fit","Everyday wear"] },
-      { id: 6, category: "Shirts", name: "Linen Summer Shirt", price: 1699, images: ["https://i.ibb.co/7Nvnf0PB/e7ecb2ed33f2915bf78a9c4816cab6e6.webp"], sizes: ["M","L","XL","XXL"], badge: "New", features: ["Linen blend","Relaxed fit","Summer perfect","Stylish"] },
-      { id: 7, category: "Pants", name: "Slim Fit Chino Pants", price: 1799, originalPrice: 2400, images: ["https://i.ibb.co/XxTyqyVD/00b533372a6093b86be173f8f3ea4d79.jpg"], sizes: ["28","30","32","34","36"], badge: "Popular", features: ["Stretch cotton","Slim fit","All-day comfort","Casual & semi-formal"] },
-      { id: 8, category: "Pants", name: "Classic Denim Jeans", price: 1999, originalPrice: 2600, images: ["https://i.ibb.co/60d5fqXW/a648782ed02393231a016d11a7cd8b39.jpg"], sizes: ["28","30","32","34","36"], badge: "Trending", features: ["Premium denim","Straight fit","5-pocket","Durable"] }
-    ];
-
+    // Global variables
+    let products = [];
     let cart = JSON.parse(localStorage.getItem('shoehub_cart') || '[]');
     let selectedSize = null;
     let currentProduct = null;
     let activeCategory = 'all';
 
-    function saveCart() { localStorage.setItem('shoehub_cart', JSON.stringify(cart)); updateCartUI(); }
-    function removeFromCart(productId, size) { cart = cart.filter(i => !(i.productId === productId && i.size === size)); saveCart(); }
+    // ===== LOAD PRODUCTS FROM SHEET =====
+    async function loadProducts() {
+      try {
+        const response = await fetch(SCRIPT_URL + '?action=getProducts');
+        products = await response.json();
+        renderProducts();
+        updateCartUI();
+      } catch (error) {
+        console.error('Failed to load products, using fallback', error);
+        products = [
+          { id: 1, category: "Shoes", name: "Sample Shoe", price: 1999, image: "https://via.placeholder.com/150", sizes: [6,7,8], features: ["Sample"] }
+        ];
+        renderProducts();
+      }
+    }
 
+    // ===== CART FUNCTIONS =====
+    function saveCart() { localStorage.setItem('shoehub_cart', JSON.stringify(cart)); updateCartUI(); }
+    function removeFromCart(productId, size) {
+      cart = cart.filter(i => !(i.productId === productId && i.size === size));
+      saveCart();
+    }
     function updateCartUI() {
-      const count = cart.reduce((s,i) => s + i.qty, 0);
+      const count = cart.reduce((s, i) => s + i.qty, 0);
       document.getElementById('cart-count').textContent = count;
       let total = 0, html = '';
       cart.forEach(item => {
         const p = products.find(x => x.id === item.productId);
-        if (p) { total += p.price * item.qty; html += `<div class="cart-item-row"><div><strong>${p.name}</strong><br><small>${p.category} | ${item.size} x${item.qty}</small></div><div style="display:flex;align-items:center;gap:4px;"><span>৳${p.price*item.qty}</span><button class="remove-btn" onclick="event.stopPropagation();removeFromCart(${item.productId},'${item.size}')">✕</button></div></div>`; }
+        if (p) {
+          total += p.price * item.qty;
+          html += `<div class="cart-item-row">
+            <div><strong>${p.name}</strong><br><small>${p.category} | ${item.size} x${item.qty}</small></div>
+            <div style="display:flex;align-items:center;gap:4px;">
+              <span>৳${p.price * item.qty}</span>
+              <button class="remove-btn" onclick="event.stopPropagation();removeFromCart(${item.productId},'${item.size}')">✕</button>
+            </div>
+          </div>`;
+        }
       });
       document.getElementById('cart-items-list').innerHTML = html || '<p style="text-align:center;color:#999;">Cart is empty</p>';
       document.getElementById('cart-total').textContent = total;
     }
 
-    function toggleCart() { document.getElementById('cart-panel').classList.toggle('open'); document.getElementById('cart-overlay').classList.toggle('open'); }
-    function showPage(id) { ['home-page','product-detail-page','checkout-page','thankyou-page'].forEach(p => document.getElementById(p).style.display = 'none'); document.getElementById(id).style.display = 'block'; window.scrollTo({top:0,behavior:'smooth'}); }
-    function showHome() { showPage('home-page'); renderProducts(); }
+    // ===== UI HELPERS =====
+    function toggleCart() {
+      document.getElementById('cart-panel').classList.toggle('open');
+      document.getElementById('cart-overlay').classList.toggle('open');
+    }
+    function showPage(id) {
+      ['home-page', 'product-detail-page', 'checkout-page', 'thankyou-page'].forEach(p => document.getElementById(p).style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function showHome() { showPage('home-page'); }
 
+    // ===== PRODUCT FILTERING & RENDERING =====
     function filterProducts(cat, btn) {
       activeCategory = cat;
       document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
       if (btn) btn.classList.add('active');
       renderProducts();
     }
-
     function renderProducts() {
       const filtered = activeCategory === 'all' ? products : products.filter(p => p.category === activeCategory);
-      document.getElementById('product-list').innerHTML = filtered.map(p => `
+      const container = document.getElementById('product-list');
+      container.innerHTML = filtered.map(p => `
         <div class="product-card" onclick="showProduct(${p.id})">
-          <div class="img-wrap"><img src="${p.images[0]}" alt="${p.name}" loading="lazy"></div>
+          <div class="img-wrap"><img src="${p.image}" alt="${p.name}" loading="lazy"></div>
           <div class="product-info">
             <div class="category-label">${p.category}</div>
             <h3>${p.name}</h3>
-            <span class="current-price">৳${p.price}</span>${p.originalPrice?`<span class="original-price">৳${p.originalPrice}</span>`:''}
-            ${p.badge?`<br><span class="badge">${p.badge}</span>`:''}
+            <span class="current-price">৳${p.price}</span>
+            ${p.originalPrice ? `<span class="original-price">৳${p.originalPrice}</span>` : ''}
+            ${p.badge ? `<br><span class="badge">${p.badge}</span>` : ''}
           </div>
-        </div>`).join('');
+        </div>
+      `).join('');
     }
 
+    // ===== SEARCH =====
     function searchProducts() {
       const q = document.getElementById('search-input').value.toLowerCase().trim();
       const results = document.getElementById('search-results');
-      if (q === '') { results.classList.remove('show'); return; }
+      if (!q) { results.classList.remove('show'); return; }
       const matches = products.filter(p => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
-      results.innerHTML = matches.length === 0 ? '<p style="padding:10px;color:#888;">No products found</p>' : matches.map(p => `
-        <div class="search-result-item" onclick="showProduct(${p.id}); document.getElementById('search-input').value=''; document.getElementById('search-results').classList.remove('show');">
-          <img src="${p.images[0]}" alt="${p.name}">
-          <div><span>${p.name}</span><br><small>${p.category} — ৳${p.price}</small></div>
-        </div>`).join('');
+      results.innerHTML = matches.length === 0
+        ? '<p style="padding:10px;color:#888;">No products found</p>'
+        : matches.map(p => `
+          <div class="search-result-item" onclick="showProduct(${p.id}); document.getElementById('search-input').value=''; results.classList.remove('show');">
+            <img src="${p.image}" alt="${p.name}">
+            <div><span>${p.name}</span><br><small>${p.category} — ৳${p.price}</small></div>
+          </div>
+        `).join('');
       results.classList.add('show');
     }
-
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', (e) => {
       if (!e.target.closest('.search-wrap')) document.getElementById('search-results').classList.remove('show');
     });
 
+    // ===== PRODUCT DETAIL =====
     function showProduct(id) {
-      const p = products.find(x => x.id === id); if (!p) return;
-      currentProduct = p; selectedSize = null;
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      currentProduct = p;
+      selectedSize = null;
       showPage('product-detail-page');
-      document.getElementById('detail-image').src = p.images[0];
+      document.getElementById('detail-image').src = p.image;
       document.getElementById('detail-name').textContent = p.name;
       document.getElementById('detail-category').textContent = p.category;
       document.getElementById('detail-price').textContent = p.price;
       document.getElementById('detail-original').textContent = p.originalPrice ? '৳' + p.originalPrice : '';
-      document.getElementById('detail-sizes').innerHTML = p.sizes.map(s => `<button class="size-btn" onclick="selectSize('${s}', this)">${p.category==='Shoes'?'UK ':''}${s}</button>`).join('');
-      document.getElementById('detail-features').innerHTML = p.features.map(f => `<p>✅ ${f}</p>`).join('');
+      document.getElementById('detail-sizes').innerHTML = (p.sizes || []).map(s => 
+        `<button class="size-btn" onclick="selectSize('${s}', this)">${p.category === 'Shoes' ? 'UK ' : ''}${s}</button>`
+      ).join('');
+      document.getElementById('detail-features').innerHTML = (p.features || []).map(f => `<p>✅ ${f}</p>`).join('');
+    }
+    function selectSize(size, btn) {
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedSize = size;
     }
 
-    function selectSize(size, btn) { document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); selectedSize = size; }
+    // ===== CART ACTIONS =====
+    document.getElementById('detail-add-cart').onclick = () => {
+      if (!selectedSize) { alert('Select a size!'); return; }
+      const ex = cart.find(i => i.productId === currentProduct.id && i.size === selectedSize);
+      ex ? ex.qty++ : cart.push({ productId: currentProduct.id, size: selectedSize, qty: 1 });
+      saveCart();
+      alert('✅ Added!');
+    };
+    document.getElementById('detail-buy-now').onclick = () => {
+      if (!selectedSize) { alert('Select a size!'); return; }
+      const ex = cart.find(i => i.productId === currentProduct.id && i.size === selectedSize);
+      ex ? ex.qty++ : cart.push({ productId: currentProduct.id, size: selectedSize, qty: 1 });
+      saveCart();
+      showCheckout();
+    };
 
+    // ===== CHECKOUT =====
     function showCheckout() {
       if (cart.length === 0) { alert('Cart is empty!'); return; }
-      toggleCart(); showPage('checkout-page');
+      toggleCart();
+      showPage('checkout-page');
       let total = 0, html = '';
-      cart.forEach(item => { const p = products.find(x => x.id === item.productId); if(p) { total += p.price*item.qty; html += `<div class="checkout-item-row"><span>${p.name} - ${item.size} x${item.qty}</span><span>৳${p.price*item.qty}</span></div>`; }});
+      cart.forEach(item => {
+        const p = products.find(x => x.id === item.productId);
+        if (p) {
+          total += p.price * item.qty;
+          html += `<div class="checkout-item-row"><span>${p.name} - ${item.size} x${item.qty}</span><span>৳${p.price * item.qty}</span></div>`;
+        }
+      });
       document.getElementById('checkout-items').innerHTML = html;
       document.getElementById('checkout-total').textContent = total;
     }
 
-    document.getElementById('detail-add-cart').onclick = () => { if(!selectedSize){alert('Select a size!');return;} const ex=cart.find(i=>i.productId===currentProduct.id&&i.size===selectedSize); ex?ex.qty++:cart.push({productId:currentProduct.id,size:selectedSize,qty:1}); saveCart(); alert('✅ Added!'); };
-    document.getElementById('detail-buy-now').onclick = () => { if(!selectedSize){alert('Select a size!');return;} const ex=cart.find(i=>i.productId===currentProduct.id&&i.size===selectedSize); ex?ex.qty++:cart.push({productId:currentProduct.id,size:selectedSize,qty:1}); saveCart(); showCheckout(); };
-
     document.getElementById('order-form').onsubmit = function(e) {
       e.preventDefault();
-      const name=document.getElementById('cust-name').value.trim(), phone=document.getElementById('cust-phone').value.trim(), address=document.getElementById('cust-address').value.trim();
-      if(!name||!phone||!address){alert('Fill all fields!');return;}
-      const orderId='ORD-'+Date.now(), items=cart.map(i=>{const p=products.find(x=>x.id===i.productId); return{name:p?p.name:'Unknown',size:i.size,qty:i.qty,price:p?p.price:0};}), total=items.reduce((s,i)=>s+i.price*i.qty,0);
-      fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({orderId,name,phone,address,items,total}),headers:{'Content-Type':'application/json'},mode:'no-cors'}).finally(()=>{cart=[];saveCart();showPage('thankyou-page');document.getElementById('order-id').textContent=orderId;});
+      const name = document.getElementById('cust-name').value.trim();
+      const phone = document.getElementById('cust-phone').value.trim();
+      const address = document.getElementById('cust-address').value.trim();
+      if (!name || !phone || !address) { alert('Fill all fields!'); return; }
+      const orderId = 'ORD-' + Date.now();
+      const items = cart.map(i => {
+        const p = products.find(x => x.id === i.productId);
+        return { name: p ? p.name : 'Unknown', size: i.size, qty: i.qty, price: p ? p.price : 0 };
+      });
+      const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ orderId, name, phone, address, items, total }),
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'no-cors'
+      }).finally(() => {
+        cart = [];
+        saveCart();
+        showPage('thankyou-page');
+        document.getElementById('order-id').textContent = orderId;
+      });
     };
 
-    renderProducts(); updateCartUI();
+    // ===== INITIAL LOAD =====
+    document.addEventListener('DOMContentLoaded', loadProducts);
   </script>
 </body>
 </html>
