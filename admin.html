@@ -5,118 +5,268 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Panel – ShoeHub</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: #222; padding: 20px; }
-    h1 { text-align: center; margin-bottom: 24px; color: #FF6B00; }
-    .login-box { max-width: 320px; margin: 60px auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; }
-    .login-box input { width: 100%; padding: 12px; margin: 12px 0; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; }
-    .login-box button { width: 100%; padding: 12px; background: #FF6B00; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; }
-    .hidden { display: none; }
-    .dashboard { max-width: 900px; margin: 0 auto; }
-    .logout-btn { float: right; background: #333; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
-    table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-    th { background: #FF6B00; color: white; padding: 12px; text-align: left; }
-    td { padding: 10px; border-bottom: 1px solid #eee; vertical-align: top; }
-    select { padding: 6px; border-radius: 6px; border: 1px solid #ccc; }
-    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; }
-    .status-Processing { background: #FFF3CD; color: #856404; }
-    .status-Shipped { background: #D4EDFF; color: #004085; }
-    .status-Delivered { background: #D4EDDA; color: #155724; }
-    .loading { text-align: center; padding: 40px; color: #888; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Segoe UI',Arial,sans-serif; background:#f5f5f5; color:#222; padding:20px; }
+    h1 { text-align:center; margin-bottom:20px; color:#FF6B00; }
+    .login-box { max-width:320px; margin:60px auto; background:white; padding:30px; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.1); text-align:center; }
+    .login-box input { width:100%; padding:12px; margin:12px 0; border:2px solid #ddd; border-radius:8px; }
+    .login-box button { width:100%; padding:12px; background:#FF6B00; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; }
+    .hidden { display:none; }
+    .dashboard { max-width:1000px; margin:0 auto; }
+    .tabs { display:flex; justify-content:center; gap:10px; margin:20px 0; }
+    .tabs button { padding:10px 24px; border:none; background:#ddd; border-radius:8px; cursor:pointer; font-weight:600; }
+    .tabs button.active { background:#FF6B00; color:white; }
+    table { width:100%; border-collapse:collapse; background:white; border-radius:12px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.05); margin-top:16px; }
+    th { background:#FF6B00; color:white; padding:12px; text-align:left; }
+    td { padding:10px; border-bottom:1px solid #eee; vertical-align:middle; }
+    .btn-primary { background:#FF6B00; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; }
+    .btn-danger { background:#e74c3c; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; }
+    .btn-sm { padding:6px 12px; font-size:0.85rem; }
+    .form-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
+    .form-row input, .form-row select, .form-row textarea { flex:1; padding:10px; border:2px solid #ddd; border-radius:8px; font-size:0.95rem; }
+    .form-row textarea { min-width:100%; }
   </style>
 </head>
 <body>
   <div id="login-screen" class="login-box">
     <h2>Admin Login</h2>
-    <input type="password" id="password-input" placeholder="Enter password">
+    <input type="password" id="password-input" placeholder="Password">
     <button onclick="login()">Login</button>
-    <p id="login-error" style="color:red; margin-top:8px;"></p>
+    <p id="login-error" style="color:red;margin-top:8px;"></p>
   </div>
 
   <div id="dashboard" class="dashboard hidden">
-    <button class="logout-btn" onclick="logout()">Logout</button>
-    <h1>Order Management</h1>
-    <div id="orders-container">Loading orders...</div>
+    <h1>Admin Dashboard</h1>
+    <button onclick="logout()" style="float:right;background:#333;color:white;padding:8px 16px;border-radius:6px;">Logout</button>
+    <div class="tabs">
+      <button id="tab-orders" class="active" onclick="switchTab('orders')">Orders</button>
+      <button id="tab-products" onclick="switchTab('products')">Products</button>
+    </div>
+
+    <!-- Orders Section -->
+    <div id="section-orders">
+      <div id="orders-container">Loading orders…</div>
+    </div>
+
+    <!-- Products Section -->
+    <div id="section-products" class="hidden">
+      <h2>Product Management</h2>
+      <div style="background:white;padding:20px;border-radius:12px;margin-bottom:20px;">
+        <h3 id="form-title">Add New Product</h3>
+        <input type="hidden" id="edit-id">
+        <div class="form-row">
+          <input type="text" id="prod-name" placeholder="Product Name">
+          <select id="prod-category">
+            <option value="Shoes">Shoes</option>
+            <option value="Shirts">Shirts</option>
+            <option value="Pants">Pants</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <input type="number" id="prod-price" placeholder="Price (৳)">
+          <input type="number" id="prod-original" placeholder="Original Price (optional)">
+        </div>
+        <div class="form-row">
+          <input type="url" id="prod-image" placeholder="Image URL (from imgbb.com)">
+        </div>
+        <div class="form-row">
+          <input type="text" id="prod-sizes" placeholder="Sizes (comma-separated, e.g., 6,7,8)">
+          <input type="text" id="prod-badge" placeholder="Badge (e.g., New, Sale)">
+        </div>
+        <div class="form-row">
+          <textarea id="prod-features" rows="2" placeholder="Features (separated by |)"></textarea>
+        </div>
+        <button class="btn-primary" onclick="saveProduct()">Save Product</button>
+        <button onclick="resetForm()" style="margin-left:8px;background:#ccc;">Cancel</button>
+      </div>
+      <div id="products-container">Loading products…</div>
+    </div>
   </div>
 
   <script>
-    // Use EXACTLY the same URL as in index.html
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxOV8pQxrFupC8cR0ZxKPLLoOjZEq3hCBWioUt_Si6-QW0vAsHXDGHb2gkHB3puZun/exec';
-    const ADMIN_PASSWORD = 'admin123';   // Change to a strong password
-
+    const ADMIN_PASSWORD = 'admin123';
     let orders = [];
+    let products = [];
 
+    // ===== LOGIN =====
     function login() {
-      const pwd = document.getElementById('password-input').value;
-      if (pwd === ADMIN_PASSWORD) {
+      if (document.getElementById('password-input').value === ADMIN_PASSWORD) {
         document.getElementById('login-screen').classList.add('hidden');
         document.getElementById('dashboard').classList.remove('hidden');
         fetchOrders();
+        fetchProducts();
       } else {
         document.getElementById('login-error').textContent = 'Wrong password!';
       }
     }
-
     function logout() {
       document.getElementById('dashboard').classList.add('hidden');
       document.getElementById('login-screen').classList.remove('hidden');
       document.getElementById('password-input').value = '';
     }
 
+    // ===== TAB SWITCH =====
+    function switchTab(tab) {
+      document.getElementById('section-orders').classList.add('hidden');
+      document.getElementById('section-products').classList.add('hidden');
+      document.getElementById('tab-orders').classList.remove('active');
+      document.getElementById('tab-products').classList.remove('active');
+      if (tab === 'orders') {
+        document.getElementById('section-orders').classList.remove('hidden');
+        document.getElementById('tab-orders').classList.add('active');
+      } else {
+        document.getElementById('section-products').classList.remove('hidden');
+        document.getElementById('tab-products').classList.add('active');
+      }
+    }
+
+    // ===== ORDERS =====
     function fetchOrders() {
-      document.getElementById('orders-container').innerHTML = '<div class="loading">Loading orders…</div>';
+      document.getElementById('orders-container').innerHTML = 'Loading orders…';
       fetch(SCRIPT_URL + '?action=list')
         .then(r => r.json())
         .then(data => {
           orders = data;
           renderOrders();
         })
-        .catch(err => {
-          document.getElementById('orders-container').innerHTML = '<p style="color:red;">Failed to load.</p>';
-          console.error(err);
-        });
+        .catch(err => document.getElementById('orders-container').innerHTML = '<p style="color:red;">Failed to load.</p>');
     }
 
     function renderOrders() {
-      if (orders.length === 0) {
-        document.getElementById('orders-container').innerHTML = '<p>No orders yet.</p>';
-        return;
-      }
-      let html = `<table><thead><tr><th>Order ID</th><th>Date</th><th>Customer</th><th>Phone</th><th>Address</th><th>Items</th><th>Total</th><th>Status</th></tr></thead><tbody>`;
-      orders.forEach(order => {
+      if (orders.length === 0) { document.getElementById('orders-container').innerHTML = '<p>No orders yet.</p>'; return; }
+      let html = `<table><tr><th>Order ID</th><th>Date</th><th>Customer</th><th>Phone</th><th>Address</th><th>Items</th><th>Total</th><th>Status</th></tr>`;
+      orders.forEach(o => {
         html += `<tr>
-          <td>${order.orderId}</td>
-          <td>${new Date(order.date).toLocaleString()}</td>
-          <td>${order.name}</td>
-          <td>${order.phone}</td>
-          <td>${order.address}</td>
-          <td>${order.items}</td>
-          <td>${order.total}</td>
+          <td>${o.orderId}</td>
+          <td>${new Date(o.date).toLocaleString()}</td>
+          <td>${o.name}</td>
+          <td>${o.phone}</td>
+          <td>${o.address}</td>
+          <td>${o.items}</td>
+          <td>${o.total}</td>
           <td>
-            <select onchange="updateStatus('${order.orderId}', this.value)">
-              <option value="Processing" ${order.status === 'Processing' ? 'selected' : ''}>Processing</option>
-              <option value="Shipped" ${order.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
-              <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+            <select onchange="updateStatus('${o.orderId}', this.value)">
+              <option value="Processing" ${o.status==='Processing'?'selected':''}>Processing</option>
+              <option value="Shipped" ${o.status==='Shipped'?'selected':''}>Shipped</option>
+              <option value="Delivered" ${o.status==='Delivered'?'selected':''}>Delivered</option>
             </select>
           </td>
         </tr>`;
       });
-      html += '</tbody></table>';
+      html += '</table>';
       document.getElementById('orders-container').innerHTML = html;
     }
 
     function updateStatus(orderId, newStatus) {
       fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'updateStatus', orderId: orderId, newStatus: newStatus }),
-        headers: { 'Content-Type': 'application/json' },
-        mode: 'no-cors'
+        method:'POST',
+        body:JSON.stringify({action:'updateStatus',orderId,newStatus}),
+        headers:{'Content-Type':'application/json'},mode:'no-cors'
       });
       const order = orders.find(o => o.orderId === orderId);
       if (order) order.status = newStatus;
     }
 
-    document.getElementById('password-input').addEventListener('keypress', e => { if (e.key === 'Enter') login(); });
+    // ===== PRODUCTS =====
+    function fetchProducts() {
+      document.getElementById('products-container').innerHTML = 'Loading products…';
+      fetch(SCRIPT_URL + '?action=getProducts')
+        .then(r => r.json())
+        .then(data => {
+          products = data;
+          renderProducts();
+        })
+        .catch(err => document.getElementById('products-container').innerHTML = '<p style="color:red;">Failed to load.</p>');
+    }
+
+    function renderProducts() {
+      if (products.length === 0) { document.getElementById('products-container').innerHTML = '<p>No products yet.</p>'; return; }
+      let html = `<table><tr><th>ID</th><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Badge</th><th>Actions</th></tr>`;
+      products.forEach(p => {
+        html += `<tr>
+          <td>${p.id}</td>
+          <td><img src="${p.image}" style="width:50px;height:50px;object-fit:cover;border-radius:6px;"></td>
+          <td>${p.name}</td>
+          <td>${p.category}</td>
+          <td>৳${p.price}</td>
+          <td>${p.badge || ''}</td>
+          <td>
+            <button class="btn-primary btn-sm" onclick="editProduct(${p.id})">Edit</button>
+            <button class="btn-danger btn-sm" onclick="deleteProduct(${p.id})">Delete</button>
+          </td>
+        </tr>`;
+      });
+      html += '</table>';
+      document.getElementById('products-container').innerHTML = html;
+    }
+
+    function editProduct(id) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      document.getElementById('edit-id').value = p.id;
+      document.getElementById('prod-name').value = p.name;
+      document.getElementById('prod-category').value = p.category;
+      document.getElementById('prod-price').value = p.price;
+      document.getElementById('prod-original').value = p.originalPrice || '';
+      document.getElementById('prod-image').value = p.image;
+      document.getElementById('prod-sizes').value = Array.isArray(p.sizes) ? p.sizes.join(',') : p.sizes;
+      document.getElementById('prod-badge').value = p.badge || '';
+      document.getElementById('prod-features').value = Array.isArray(p.features) ? p.features.join('|') : p.features;
+      document.getElementById('form-title').textContent = 'Edit Product';
+    }
+
+    function resetForm() {
+      document.getElementById('edit-id').value = '';
+      document.getElementById('prod-name').value = '';
+      document.getElementById('prod-category').value = 'Shoes';
+      document.getElementById('prod-price').value = '';
+      document.getElementById('prod-original').value = '';
+      document.getElementById('prod-image').value = '';
+      document.getElementById('prod-sizes').value = '';
+      document.getElementById('prod-badge').value = '';
+      document.getElementById('prod-features').value = '';
+      document.getElementById('form-title').textContent = 'Add New Product';
+    }
+
+    function saveProduct() {
+      const id = document.getElementById('edit-id').value;
+      const productData = {
+        name: document.getElementById('prod-name').value,
+        category: document.getElementById('prod-category').value,
+        price: Number(document.getElementById('prod-price').value),
+        originalPrice: document.getElementById('prod-original').value ? Number(document.getElementById('prod-original').value) : null,
+        image: document.getElementById('prod-image').value,
+        sizes: document.getElementById('prod-sizes').value.split(',').map(s => isNaN(s.trim()) ? s.trim() : Number(s.trim())),
+        badge: document.getElementById('prod-badge').value,
+        features: document.getElementById('prod-features').value.split('|').map(f => f.trim())
+      };
+
+      const action = id ? 'updateProduct' : 'addProduct';
+      const body = id ? { action, id: Number(id), product: productData } : { action, product: productData };
+
+      fetch(SCRIPT_URL, {
+        method:'POST',
+        body:JSON.stringify(body),
+        headers:{'Content-Type':'application/json'},
+        mode:'no-cors'
+      }).then(() => {
+        resetForm();
+        fetchProducts();  // refresh list
+      }).catch(err => alert('Error saving product'));
+    }
+
+    function deleteProduct(id) {
+      if (!confirm('Delete product #' + id + '?')) return;
+      fetch(SCRIPT_URL, {
+        method:'POST',
+        body:JSON.stringify({action:'deleteProduct', id}),
+        headers:{'Content-Type':'application/json'},
+        mode:'no-cors'
+      }).then(() => fetchProducts());
+    }
+
+    document.getElementById('password-input').addEventListener('keypress', e => { if (e.key==='Enter') login(); });
   </script>
 </body>
 </html>
