@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="google-site-verification" content="X-Pjgu-XlWbWNT4MElg6dNxi4D6JxyOUnA7qesHxhE">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ShoeHub – Step Into Style</title>
@@ -20,6 +21,8 @@
       --shadow: 0 8px 30px rgba(0,0,0,0.08);
       --shadow-hover: 0 16px 40px rgba(0,0,0,0.12);
       --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --star-filled: #FFB800;
+      --star-empty: #ddd;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior: smooth; }
@@ -31,7 +34,7 @@
       overflow-x: hidden;
       -webkit-tap-highlight-color: transparent;
     }
-    h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: -0.5px; }
+    h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: -0.5px; }
     a { text-decoration: none; color: inherit; }
 
     /* NAVIGATION */
@@ -155,7 +158,80 @@
     .current-price { color:var(--accent); font-weight:700; font-size:1.1rem; }
     .original-price { text-decoration:line-through; color:#999; font-size:0.85rem; }
 
-    /* SKELETON LOADER */
+    /* PRODUCT DETAIL PAGE */
+    #product-detail-page {
+      display:none; padding:20px; max-width:650px; margin:0 auto; animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+    #product-detail-page img { width:100%; border-radius:var(--radius); box-shadow:var(--shadow); }
+    .size-options { display:flex; gap:10px; margin:16px 0; flex-wrap:wrap; }
+    .size-btn {
+      padding:10px 18px; border:2px solid var(--gray-mid); border-radius:14px;
+      background:white; cursor:pointer; font-weight:600; transition:var(--transition);
+    }
+    .size-btn.selected { background:var(--accent); color:white; border-color:var(--accent); }
+    .cta-buttons { display:flex; gap:12px; margin-top:24px; }
+    .cta-buttons .btn { flex:1; }
+
+    /* ───────── REVIEW SECTION (inspired by Dribbble designs) ───────── */
+    .reviews-section {
+      margin-top:40px; padding-top:30px; border-top:2px solid var(--gray-mid);
+    }
+    .reviews-section h3 { font-size:1.3rem; margin-bottom:20px; }
+
+    /* Rating Summary */
+    .rating-summary {
+      display:flex; align-items:center; gap:20px; padding:20px;
+      background:var(--gray-light); border-radius:16px; margin-bottom:24px;
+      flex-wrap:wrap;
+    }
+    .rating-big {
+      font-size:3rem; font-weight:800; color:var(--black); line-height:1;
+    }
+    .rating-stars-row { display:flex; gap:3px; margin:4px 0; }
+    .rating-stars-row .star { font-size:1.1rem; color:var(--star-empty); }
+    .rating-stars-row .star.filled { color:var(--star-filled); }
+    .rating-count-text { font-size:0.8rem; color:var(--gray-dark); }
+    .rating-breakdown { flex:1; min-width:200px; }
+    .rating-bar-row { display:flex; align-items:center; gap:8px; margin:4px 0; font-size:0.8rem; }
+    .rating-bar-row .bar-bg { flex:1; height:8px; background:var(--gray-mid); border-radius:4px; overflow:hidden; }
+    .rating-bar-row .bar-fill { height:100%; background:var(--star-filled); border-radius:4px; transition:width 0.4s; }
+
+    /* Review Cards */
+    .review-card {
+      background:var(--white); border:1px solid var(--gray-mid); border-radius:14px;
+      padding:16px; margin-bottom:12px; transition:var(--transition);
+    }
+    .review-card:hover { border-color:var(--accent); box-shadow:var(--shadow-sm); }
+    .review-card-header { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px; }
+    .review-card .stars { display:flex; gap:2px; }
+    .review-card .stars .star { font-size:0.9rem; color:var(--star-empty); }
+    .review-card .stars .star.filled { color:var(--star-filled); }
+    .review-card .reviewer-name { font-weight:700; font-size:0.9rem; }
+    .review-card .review-date { font-size:0.75rem; color:var(--gray-dark); }
+    .review-card .review-comment { margin-top:8px; font-size:0.9rem; color:var(--black); line-height:1.5; }
+
+    /* Submit Review Form */
+    .review-form {
+      background:var(--gray-light); border-radius:16px; padding:20px; margin-top:24px;
+    }
+    .review-form h4 { margin-bottom:12px; font-size:1rem; }
+    .star-selector { display:flex; gap:6px; margin:8px 0 14px; }
+    .star-selector button {
+      background:none; border:none; font-size:1.8rem; cursor:pointer;
+      color:var(--star-empty); transition:color 0.15s, transform 0.15s; padding:0; line-height:1;
+    }
+    .star-selector button.filled { color:var(--star-filled); }
+    .star-selector button:hover { transform:scale(1.2); }
+    .review-form input, .review-form textarea {
+      width:100%; padding:12px; margin-bottom:10px; border:1px solid var(--gray-mid);
+      border-radius:10px; font-family:'Inter',sans-serif; font-size:0.9rem;
+    }
+    .review-form input:focus, .review-form textarea:focus {
+      outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(255,107,0,0.1);
+    }
+
+    /* ───────── rest of existing styles ───────── */
     .skeleton-card {
       background:linear-gradient(90deg, var(--gray-light) 25%, #fff 50%, var(--gray-light) 75%);
       background-size:200% 100%; animation:shimmer 1.5s infinite;
@@ -163,7 +239,6 @@
     }
     @keyframes shimmer { 0%{background-position:200% 0;} 100%{background-position:-200% 0;} }
 
-    /* CART PANEL */
     .cart-panel {
       position:fixed; top:0; right:-100%; width:320px; max-width:85vw; height:100%;
       background:white; box-shadow:-4px 0 30px rgba(0,0,0,0.15); z-index:200;
@@ -185,22 +260,6 @@
     .remove-btn { background:none; border:none; color:#ff4444; font-size:1.2rem; cursor:pointer; }
     .cart-footer { padding:20px; border-top:2px solid #eee; text-align:center; }
 
-    /* PRODUCT DETAIL PAGE */
-    #product-detail-page {
-      display:none; padding:20px; max-width:600px; margin:0 auto; animation: fadeIn 0.4s ease;
-    }
-    @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
-    #product-detail-page img { width:100%; border-radius:var(--radius); box-shadow:var(--shadow); }
-    .size-options { display:flex; gap:10px; margin:16px 0; flex-wrap:wrap; }
-    .size-btn {
-      padding:10px 18px; border:2px solid var(--gray-mid); border-radius:14px;
-      background:white; cursor:pointer; font-weight:600; transition:var(--transition);
-    }
-    .size-btn.selected { background:var(--accent); color:white; border-color:var(--accent); }
-    .cta-buttons { display:flex; gap:12px; margin-top:24px; }
-    .cta-buttons .btn { flex:1; }
-
-    /* CHECKOUT */
     #checkout-page {
       display:none; padding:20px; max-width:500px; margin:0 auto; animation: fadeIn 0.4s ease;
     }
@@ -214,7 +273,6 @@
       border-color:var(--accent); outline:none; box-shadow:0 0 0 4px rgba(255,107,0,0.1);
     }
 
-    /* THANK YOU */
     #thankyou-page {
       display:none; text-align:center; padding:80px 20px; animation: fadeInUp 0.6s ease;
     }
@@ -226,7 +284,6 @@
     }
     @keyframes pop { 0%{transform:scale(0);} 80%{transform:scale(1.1);} 100%{transform:scale(1);} }
 
-    /* WHATSAPP FLOAT */
     .whatsapp-float {
       position:fixed; bottom:20px; right:20px; background:#25D366; color:white;
       width:56px; height:56px; border-radius:50%; display:flex; align-items:center;
@@ -236,13 +293,10 @@
     @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
     .whatsapp-float:hover { transform:scale(1.1); }
 
-    /* SCROLL ANIMATION */
     .fade-up {
       opacity:0; transform:translateY(30px); transition:all 0.6s ease;
     }
-    .fade-up.visible {
-      opacity:1; transform:translateY(0);
-    }
+    .fade-up.visible { opacity:1; transform:translateY(0); }
   </style>
 </head>
 <body>
@@ -267,7 +321,6 @@
       </div>
     </section>
 
-    <!-- Trust Cards -->
     <div class="trust-grid fade-up">
       <div class="trust-card"><div class="trust-icon">💵</div><h4>Cash on Delivery</h4><p>Pay when you receive</p></div>
       <div class="trust-card"><div class="trust-icon">🔄</div><h4>Easy 7-Day Exchange</h4><p>Hassle-free returns</p></div>
@@ -284,11 +337,8 @@
         <button class="category-tab" onclick="filterProducts('Pants', this)">👖 Pants</button>
       </div>
       <div id="product-list" class="product-grid">
-        <!-- Skeleton loaders while fetching -->
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div><div class="skeleton-card"></div>
+        <div class="skeleton-card"></div><div class="skeleton-card"></div>
       </div>
     </section>
 
@@ -304,14 +354,43 @@
     <img id="detail-image" src="" alt="Product">
     <h2 id="detail-name" style="margin-top:20px;"></h2>
     <p id="detail-category" style="color:#888; font-size:0.85rem;"></p>
-    <p style="font-size:1.4rem;color:var(--accent);font-weight:700;">৳<span id="detail-price"></span> <span id="detail-original" style="text-decoration:line-through;color:#999;font-size:1rem;"></span></p>
+    <div style="display:flex;align-items:center;gap:8px;margin:6px 0;">
+      <div class="stars" id="detail-stars" style="display:flex;gap:2px;color:var(--star-filled);font-size:1rem;"></div>
+      <span id="detail-avg-rating" style="font-weight:600;font-size:0.9rem;"></span>
+      <span id="detail-review-count" style="color:var(--gray-dark);font-size:0.85rem;"></span>
+    </div>
+    <p style="font-size:1.4rem;color:var(--accent);font-weight:700;margin:8px 0;">৳<span id="detail-price"></span> <span id="detail-original" style="text-decoration:line-through;color:#999;font-size:1rem;"></span></p>
     <p style="font-weight:600;">Select Size:</p>
     <div id="detail-sizes" class="size-options"></div>
     <p style="font-weight:600; margin-top:16px;">Features:</p>
     <div id="detail-features"></div>
-    <div class="cta-buttons">
+    <div class="cta-buttons" style="display:flex; gap:12px; margin-top:24px;">
       <button class="btn btn-primary" id="detail-add-cart">Add to Cart</button>
       <button class="btn btn-outline" id="detail-buy-now">Buy Now</button>
+    </div>
+
+    <!-- ══════════ REVIEWS SECTION ══════════ -->
+    <div class="reviews-section">
+      <h3>Customer Reviews</h3>
+      <div class="rating-summary" id="rating-summary"></div>
+      <div id="reviews-list"></div>
+
+      <!-- Submit Review Form -->
+      <div class="review-form" id="review-form">
+        <h4>Write a Review</h4>
+        <div class="star-selector" id="star-selector">
+          <button data-value="1">★</button>
+          <button data-value="2">★</button>
+          <button data-value="3">★</button>
+          <button data-value="4">★</button>
+          <button data-value="5">★</button>
+        </div>
+        <input type="hidden" id="review-rating" value="0">
+        <input type="text" id="review-name" placeholder="Your Name">
+        <textarea id="review-comment" rows="3" placeholder="Share your thoughts about this product..."></textarea>
+        <button id="submit-review" class="btn btn-primary">Submit Review</button>
+        <p id="review-msg" style="margin-top:8px;font-size:0.85rem;"></p>
+      </div>
     </div>
   </div>
 
@@ -370,31 +449,27 @@
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxOV8pQxrFupC8cR0ZxKPLLoOjZEq3hCBWioUt_Si6-QW0vAsHXDGHb2gkHB3puZun/exec';
     const CACHE_KEY = 'shoehub_products';
     const CACHE_TIME_KEY = 'shoehub_cache_time';
-    const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
+    const CACHE_DURATION = 30 * 60 * 1000;
 
     let products = [];
     let cart = JSON.parse(localStorage.getItem('shoehub_cart') || '[]');
     let selectedSize = null;
     let currentProduct = null;
     let activeCategory = 'all';
+    let currentReviews = [];
 
-    // ==================== PRODUCT LOADING (with cache) ====================
+    // ==================== PRODUCT LOADING ====================
     async function loadProducts() {
       const container = document.getElementById('product-list');
-
-      // Try to show cached data instantly
       const cached = localStorage.getItem(CACHE_KEY);
       const cacheTime = localStorage.getItem(CACHE_TIME_KEY);
       if (cached && cacheTime && (Date.now() - Number(cacheTime) < CACHE_DURATION)) {
         products = JSON.parse(cached);
         renderProducts();
         updateCartUI();
-        return; // Don't remove skeletons if we have fresh cache
+        return;
       }
-
-      // Show skeletons while fetching
       container.innerHTML = Array(4).fill('<div class="skeleton-card"></div>').join('');
-
       try {
         const resp = await fetch(SCRIPT_URL + '?action=getProducts');
         const fresh = await resp.json();
@@ -413,11 +488,9 @@
       }
     }
 
-    // ==================== RENDER ====================
     function renderProducts() {
       const filtered = activeCategory === 'all' ? products : products.filter(p => p.category === activeCategory);
-      const container = document.getElementById('product-list');
-      container.innerHTML = filtered.map(p => `
+      document.getElementById('product-list').innerHTML = filtered.map(p => `
         <div class="product-card" onclick="showProduct(${p.id})">
           <div class="img-wrap">
             <img src="${p.image}" alt="${p.name}" loading="lazy">
@@ -468,7 +541,6 @@
       document.getElementById('cart-overlay').classList.toggle('open');
     }
 
-    // ==================== PAGE NAVIGATION ====================
     function showPage(id) {
       ['home-page','product-detail-page','checkout-page','thankyou-page'].forEach(p => document.getElementById(p).style.display = 'none');
       document.getElementById(id).style.display = 'block';
@@ -492,12 +564,149 @@
         `<button class="size-btn" onclick="selectSize('${s}', this)">${p.category === 'Shoes' ? 'UK ' : ''}${s}</button>`
       ).join('');
       document.getElementById('detail-features').innerHTML = (p.features || []).map(f => `<p>✅ ${f}</p>`).join('');
+      loadReviews(p.id);
     }
     function selectSize(size, btn) {
       document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
       selectedSize = size;
     }
+
+    // ==================== REVIEWS ====================
+    async function loadReviews(productId) {
+      const list = document.getElementById('reviews-list');
+      const summary = document.getElementById('rating-summary');
+      list.innerHTML = '<p style="color:#888;">Loading reviews...</p>';
+      summary.innerHTML = '';
+      document.getElementById('review-rating').value = 0;
+      updateReviewStarDisplay(0);
+      document.getElementById('review-name').value = '';
+      document.getElementById('review-comment').value = '';
+      document.getElementById('review-msg').textContent = '';
+
+      try {
+        const resp = await fetch(SCRIPT_URL + '?action=getReviews&productId=' + productId);
+        const reviews = await resp.json();
+        currentReviews = reviews;
+
+        if (reviews.length === 0) {
+          list.innerHTML = '<p style="color:#888;">No reviews yet. Be the first to review!</p>';
+          renderRatingSummary([], summary);
+          updateProductStars(0, 0);
+          return;
+        }
+
+        // Calculate stats
+        const total = reviews.length;
+        const sum = reviews.reduce((s,r) => s + r.rating, 0);
+        const avg = (sum / total).toFixed(1);
+        const breakdown = [0,0,0,0,0,0]; // index 1-5
+        reviews.forEach(r => breakdown[r.rating]++);
+
+        renderRatingSummary({ avg, total, breakdown }, summary);
+        updateProductStars(avg, total);
+
+        // Render review cards
+        list.innerHTML = reviews.map(r => `
+          <div class="review-card">
+            <div class="review-card-header">
+              <div>
+                <span class="reviewer-name">${r.name}</span>
+                <span class="review-date"> · ${new Date(r.date).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' })}</span>
+              </div>
+              <div class="stars">${renderStars(r.rating)}</div>
+            </div>
+            <p class="review-comment">${r.comment || ''}</p>
+          </div>
+        `).join('');
+
+      } catch (err) {
+        list.innerHTML = '<p style="color:red;">Could not load reviews.</p>';
+      }
+    }
+
+    function renderStars(rating) {
+      return Array.from({length:5}, (_,i) => `<span class="star${i < rating ? ' filled' : ''}">★</span>`).join('');
+    }
+
+    function renderRatingSummary(stats, container) {
+      if (!stats || stats.total === 0) {
+        container.innerHTML = '<div style="text-align:center;color:#888;">No ratings yet</div>';
+        return;
+      }
+      const starDisplay = renderStars(Math.round(stats.avg));
+      container.innerHTML = `
+        <div style="text-align:center;">
+          <div class="rating-big">${stats.avg}</div>
+          <div class="rating-stars-row">${starDisplay}</div>
+          <div class="rating-count-text">${stats.total} review${stats.total !== 1 ? 's' : ''}</div>
+        </div>
+        <div class="rating-breakdown">
+          ${[5,4,3,2,1].map(star => {
+            const pct = stats.total > 0 ? Math.round((stats.breakdown[star] / stats.total) * 100) : 0;
+            return `
+              <div class="rating-bar-row">
+                <span>${star} ★</span>
+                <div class="bar-bg"><div class="bar-fill" style="width:${pct}%;"></div></div>
+                <span>${pct}%</span>
+              </div>`;
+          }).join('')}
+        </div>`;
+    }
+
+    function updateProductStars(avg, total) {
+      document.getElementById('detail-stars').innerHTML = renderStars(Math.round(avg));
+      document.getElementById('detail-avg-rating').textContent = avg > 0 ? avg : '';
+      document.getElementById('detail-review-count').textContent = total > 0 ? `(${total} review${total !== 1 ? 's' : ''})` : '';
+    }
+
+    // Star selector for submitting
+    document.getElementById('star-selector').addEventListener('click', function(e) {
+      if (e.target.tagName === 'BUTTON') {
+        const rating = e.target.getAttribute('data-value');
+        document.getElementById('review-rating').value = rating;
+        updateReviewStarDisplay(rating);
+      }
+    });
+
+    function updateReviewStarDisplay(rating) {
+      const stars = document.querySelectorAll('#star-selector button');
+      stars.forEach(star => {
+        star.classList.toggle('filled', star.getAttribute('data-value') <= rating);
+      });
+    }
+
+    document.getElementById('submit-review').onclick = async () => {
+      const rating = document.getElementById('review-rating').value;
+      const name = document.getElementById('review-name').value.trim();
+      const comment = document.getElementById('review-comment').value.trim();
+      const msg = document.getElementById('review-msg');
+
+      if (!rating || rating == 0) { msg.textContent = 'Please select a star rating.'; msg.style.color = 'red'; return; }
+      if (!name) { msg.textContent = 'Please enter your name.'; msg.style.color = 'red'; return; }
+
+      const review = { productId: currentProduct.id, name, rating: Number(rating), comment };
+      const btn = document.getElementById('submit-review');
+      btn.disabled = true; btn.textContent = 'Submitting…';
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'addReview', review }),
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'no-cors'
+        });
+        loadReviews(currentProduct.id);
+        msg.textContent = '✅ Review submitted! Thank you.';
+        msg.style.color = 'green';
+      } catch (err) {
+        msg.textContent = 'Error submitting review.';
+        msg.style.color = 'red';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Submit Review';
+      }
+    };
 
     // ==================== CART BUTTONS ====================
     document.getElementById('detail-add-cart').onclick = () => {
@@ -525,7 +734,7 @@
         const p = products.find(x => x.id === item.productId);
         if (p) {
           total += p.price * item.qty;
-          html += `<div class="checkout-item-row" style="display:flex;justify-content:space-between;padding:6px 0;">${p.name} - ${item.size} x${item.qty} <span>৳${p.price * item.qty}</span></div>`;
+          html += `<div style="display:flex;justify-content:space-between;padding:6px 0;">${p.name} - ${item.size} x${item.qty} <span>৳${p.price * item.qty}</span></div>`;
         }
       });
       document.getElementById('checkout-items').innerHTML = html;
@@ -535,31 +744,24 @@
     document.getElementById('order-form').onsubmit = function(e) {
       e.preventDefault();
       const btn = document.getElementById('place-order-btn');
-      if (btn.disabled) return; // Prevent double submission
+      if (btn.disabled) return;
       const name = document.getElementById('cust-name').value.trim();
       const phone = document.getElementById('cust-phone').value.trim();
       const address = document.getElementById('cust-address').value.trim();
       if (!name || !phone || !address) { alert('Fill all fields!'); return; }
-      btn.disabled = true;
-      btn.textContent = 'Processing…';
+      btn.disabled = true; btn.textContent = 'Processing…';
       const orderId = 'ORD-' + Date.now();
       const items = cart.map(i => {
         const p = products.find(x => x.id === i.productId);
         return { name: p ? p.name : 'Unknown', size: i.size, qty: i.qty, price: p ? p.price : 0 };
       });
       const total = items.reduce((s,i) => s + i.price*i.qty, 0);
-      fetch(SCRIPT_URL, {
-        method:'POST',
-        body: JSON.stringify({ orderId, name, phone, address, items, total }),
-        headers:{'Content-Type':'application/json'},
-        mode:'no-cors'
-      }).finally(() => {
-        cart = [];
-        saveCart();
+      fetch(SCRIPT_URL, { method:'POST', body: JSON.stringify({ orderId, name, phone, address, items, total }), headers:{'Content-Type':'application/json'}, mode:'no-cors' })
+      .finally(() => {
+        cart = []; saveCart();
         showPage('thankyou-page');
         document.getElementById('order-id').textContent = orderId;
-        btn.disabled = false;
-        btn.textContent = 'Place Order';
+        btn.disabled = false; btn.textContent = 'Place Order';
       });
     };
 
@@ -581,7 +783,6 @@
       if (!e.target.closest('.search-wrap')) document.getElementById('search-results').classList.remove('show');
     });
 
-    // ==================== FILTER ====================
     function filterProducts(cat, btn) {
       activeCategory = cat;
       document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
@@ -589,17 +790,13 @@
       renderProducts();
     }
 
-    // ==================== SCROLL ANIMATIONS ====================
+    // Scroll animations
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
     }, { threshold: 0.2 });
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-    // ==================== STARTUP ====================
+    // Startup
     document.addEventListener('DOMContentLoaded', loadProducts);
   </script>
 </body>
