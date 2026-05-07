@@ -12,7 +12,7 @@
     .login-box input { width:100%; padding:12px; margin:12px 0; border:2px solid #ddd; border-radius:8px; }
     .login-box button { width:100%; padding:12px; background:#FF6B00; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; }
     .hidden { display:none; }
-    .dashboard { max-width:1000px; margin:0 auto; }
+    .dashboard { max-width:1100px; margin:0 auto; }
     .tabs { display:flex; justify-content:center; gap:10px; margin:20px 0; }
     .tabs button { padding:10px 24px; border:none; background:#ddd; border-radius:8px; cursor:pointer; font-weight:600; }
     .tabs button.active { background:#FF6B00; color:white; }
@@ -25,6 +25,10 @@
     .form-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
     .form-row input, .form-row select, .form-row textarea { flex:1; padding:10px; border:2px solid #ddd; border-radius:8px; font-size:0.95rem; }
     .form-row textarea { min-width:100%; }
+    .form-row label { font-weight:600; margin-bottom:4px; width:100%; }
+    @media (max-width:600px) {
+      .form-row { flex-direction:column; }
+    }
   </style>
 </head>
 <body>
@@ -67,10 +71,12 @@
           <input type="number" id="prod-original" placeholder="Original Price (optional)">
         </div>
         <div class="form-row">
-          <input type="url" id="prod-image" placeholder="Image URL (from imgbb.com)">
+          <label for="prod-image">Image URLs (one per line)</label>
+          <textarea id="prod-image" rows="3" placeholder="https://i.ibb.co/abc.jpg
+https://i.ibb.co/def.png"></textarea>
         </div>
         <div class="form-row">
-          <input type="text" id="prod-sizes" placeholder="Sizes (comma-separated, e.g., 6,7,8)">
+          <input type="text" id="prod-sizes" placeholder="Sizes (comma-separated, e.g., 6,7,8 or M,L,XL)">
           <input type="text" id="prod-badge" placeholder="Badge (e.g., New, Sale)">
         </div>
         <div class="form-row">
@@ -130,11 +136,14 @@
           orders = data;
           renderOrders();
         })
-        .catch(err => document.getElementById('orders-container').innerHTML = '<p style="color:red;">Failed to load.</p>');
+        .catch(() => document.getElementById('orders-container').innerHTML = '<p style="color:red;">Failed to load.</p>');
     }
 
     function renderOrders() {
-      if (orders.length === 0) { document.getElementById('orders-container').innerHTML = '<p>No orders yet.</p>'; return; }
+      if (orders.length === 0) {
+        document.getElementById('orders-container').innerHTML = '<p>No orders yet.</p>';
+        return;
+      }
       let html = `<table><tr><th>Order ID</th><th>Date</th><th>Customer</th><th>Phone</th><th>Address</th><th>Items</th><th>Total</th><th>Status</th></tr>`;
       orders.forEach(o => {
         html += `<tr>
@@ -177,16 +186,20 @@
           products = data;
           renderProducts();
         })
-        .catch(err => document.getElementById('products-container').innerHTML = '<p style="color:red;">Failed to load.</p>');
+        .catch(() => document.getElementById('products-container').innerHTML = '<p style="color:red;">Failed to load.</p>');
     }
 
     function renderProducts() {
-      if (products.length === 0) { document.getElementById('products-container').innerHTML = '<p>No products yet.</p>'; return; }
+      if (products.length === 0) {
+        document.getElementById('products-container').innerHTML = '<p>No products yet.</p>';
+        return;
+      }
       let html = `<table><tr><th>ID</th><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Badge</th><th>Actions</th></tr>`;
       products.forEach(p => {
+        const firstImage = (p.images && p.images.length) ? p.images[0] : (p.image || '');
         html += `<tr>
           <td>${p.id}</td>
-          <td><img src="${p.image}" style="width:50px;height:50px;object-fit:cover;border-radius:6px;"></td>
+          <td><img src="${firstImage}" style="width:50px;height:50px;object-fit:cover;border-radius:6px;"></td>
           <td>${p.name}</td>
           <td>${p.category}</td>
           <td>৳${p.price}</td>
@@ -209,7 +222,13 @@
       document.getElementById('prod-category').value = p.category;
       document.getElementById('prod-price').value = p.price;
       document.getElementById('prod-original').value = p.originalPrice || '';
-      document.getElementById('prod-image').value = p.image;
+      // Convert images array to newline-separated string
+      if (p.images && Array.isArray(p.images)) {
+        document.getElementById('prod-image').value = p.images.join('\n');
+      } else if (typeof p.image === 'string') {
+        // Fallback: if old format "image" is a comma string
+        document.getElementById('prod-image').value = p.image.split(',').join('\n');
+      }
       document.getElementById('prod-sizes').value = Array.isArray(p.sizes) ? p.sizes.join(',') : p.sizes;
       document.getElementById('prod-badge').value = p.badge || '';
       document.getElementById('prod-features').value = Array.isArray(p.features) ? p.features.join('|') : p.features;
@@ -236,7 +255,7 @@
         category: document.getElementById('prod-category').value,
         price: Number(document.getElementById('prod-price').value),
         originalPrice: document.getElementById('prod-original').value ? Number(document.getElementById('prod-original').value) : null,
-        image: document.getElementById('prod-image').value,
+        images: document.getElementById('prod-image').value.split('\n').map(u => u.trim()).filter(u => u),
         sizes: document.getElementById('prod-sizes').value.split(',').map(s => isNaN(s.trim()) ? s.trim() : Number(s.trim())),
         badge: document.getElementById('prod-badge').value,
         features: document.getElementById('prod-features').value.split('|').map(f => f.trim())
@@ -252,7 +271,7 @@
         mode:'no-cors'
       }).then(() => {
         resetForm();
-        fetchProducts();  // refresh list
+        fetchProducts();
       }).catch(err => alert('Error saving product'));
     }
 
